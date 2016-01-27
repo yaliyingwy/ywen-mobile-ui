@@ -24,6 +24,6 @@ describe('Modal', ()=> {
     document.body.removeChild(div);
   });
   it('render works', ()=> {
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(component, 'rmc-picker-item').length).to.be(2);
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(component, 'rc-modal-mask').length).to.be(1);
   });
 });

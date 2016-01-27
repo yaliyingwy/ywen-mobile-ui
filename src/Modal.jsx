@@ -46,7 +46,6 @@ export default React.createClass({
   },
 
   render() {
-    console.log('hhkh', className);
     const {prefixCls} = this.props;
     const cls = className({prefixCls});
     return (

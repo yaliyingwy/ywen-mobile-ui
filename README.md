@@ -51,7 +51,7 @@ npm start
 http://localhost:8000/examples/
 
 
-online example: http://react-component.github.io/ywen-mobile-ui/
+online example: http://yaliyingwy.github.io/ywen-mobile-ui/
 
 
 ## Feature
