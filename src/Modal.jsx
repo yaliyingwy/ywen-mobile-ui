@@ -1,16 +1,15 @@
 import React, {PropTypes} from 'react';
-import className from 'class-name';
 
 export default React.createClass({
   displayName: 'rc-modal',
 
   propTypes: {
     show: PropTypes.bool,
+    withMask: PropTypes.bool,
     disableScroll: PropTypes.bool,
-    cancelOnTouch: PropTypes.bool,
     className: PropTypes.string,
     prefixCls: PropTypes.string,
-    onDismiss: PropTypes.func,
+    touchMask: PropTypes.func,
     children: PropTypes.node,
   },
 
@@ -19,40 +18,40 @@ export default React.createClass({
     return {
       prefixCls: 'rc-modal',
       className: '',
-      show: false,
+      show: true,
+      withMask: true,
       disableScroll: true,
-      cancelOnTouch: true,
-    };
-  },
-
-  getInitialState() {
-    return {
-      show: !!this.props.show,
     };
   },
 
   _disableScroll(e) {
     e.preventDefault();
-    e.stopPropagation();
   },
 
   _touchMask(e) {
-    e.stopPropagation();
-    if (this.props.cancelOnTouch) {
-      this.setState({
-        show: false,
-      });
+    if (this.props.touchMask) {
+      this.props.touchMask(e);
     }
   },
 
   render() {
-    const {prefixCls} = this.props;
-    const cls = className({prefixCls});
-    return (
-      <div className={cls} onTouchMove={this._disableScroll}>
-      {this.props.children}
-      <div onTouchStart={this._touchMask} onClick={this._touchMask} className={this.props.prefixCls + '-mask'} />
-      </div>
-    );
+    const {prefixCls, className} = this.props;
+    const cls = prefixCls + ' ' + className;
+    let modal = null;
+    if (this.props.show) {
+      modal = (<div className={cls} onTouchMove={this._disableScroll}>
+        {this.props.children}
+        {(()=> {
+          if (this.props.withMask) {
+            return <div onTouchStart={this._touchMask} onClick={this._touchMask} className={this.props.prefixCls + '-mask'} />;
+          }
+        })()}
+        </div>
+      );
+    } else {
+      modal = <div />;
+    }
+
+    return modal;
   },
 });
