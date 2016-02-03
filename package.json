@@ -55,6 +55,5 @@
     "lint"
   ],
   "dependencies": {
-    "react-addons-css-transition-group": "^0.14.7"
   }
 }
