@@ -1,0 +1,74 @@
+@import "common.less";
+@toastClass: rc-toast;
+
+@radius: 10/@ppr;
+
+.@{toastClass} {
+	max-width: 271/@ppr;
+	background: #000;
+	border-radius: @radius;
+	overflow: hidden;
+	color: #fff;
+	text-align: center;
+	word-break: break-all;
+	opacity: 1;
+	transition: opacity .25s ease-in-out;
+	z-index: 99999;
+
+}
+
+.@{toastClass}-center {
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	-webkit-transform: translate3d(-50%,-40%,0);
+	transform: translate3d(-50%,-40%,0);
+}
+
+.@{toastClass}-top {
+	position: fixed;
+	left: 50%;
+	top: 4%;
+	-webkit-transform: translate3d(-50%,-4%,0);
+	transform: translate3d(-50%,-4%,0);
+}
+
+.@{toastClass}-bottom {
+	position: fixed;
+	left: 50%;
+	bottom: 4%;
+	-webkit-transform: translate3d(-50%,4%,0);
+	transform: translate3d(-50%,4%,0);
+}
+
+.@{toastClass}-hide {
+	opacity: 0;
+}
+
+.@{toastClass}-icon {
+	display: block;
+	width: 100%;
+	font-size: 30/@ppr;
+	padding-top: 10/@ppr;
+	letf: 0;
+}
+
+.@{toastClass}-icon-success {
+	&:before {
+		.hybridui;
+		content: '\e602';
+	}
+}
+
+.@{toastClass}-icon-error {
+	&:before {
+		.hybridui;
+		content: '\e601';
+	}
+}
+
+.@{toastClass}-content {
+	font-size: 15/@ppr;
+	padding: 10/@ppr 20/@ppr 20/@ppr 20/@ppr;
+}
+

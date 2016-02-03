@@ -43,11 +43,11 @@ export default React.createClass({
     const cls = prefixCls + ' ' + className;
     return (<Modal show={this.props.show} withMask={this.props.withMask} touchMask={this._touchMask}>
       <div className={cls}>
-        <h4>{this.props.title}</h4>
-        <p>{this.props.content}</p>
-        <div>
-          <span onClick={this.props.confirmCb}>{this.props.confirmBtn}</span>
-          <span onClick={this.props.cancelCb}>{this.props.cancelBtn}</span>
+        <h4 className={this.props.prefixCls + '-title'}>{this.props.title}</h4>
+        <p className={this.props.prefixCls + '-content'}>{this.props.content}</p>
+        <div className={this.props.prefixCls + '-btns'}>
+          <a onClick={this.props.confirmCb}>{this.props.confirmBtn}</a>
+          <a onClick={this.props.cancelCb}>{this.props.cancelBtn}</a>
         </div>
       </div>
       </Modal>

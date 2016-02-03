@@ -20,7 +20,7 @@
   },
   "files": [
     "lib",
-    "assets/*.css"
+    "assets/*"
   ],
   "licenses": "MIT",
   "main": "./lib/index",
@@ -28,19 +28,19 @@
     "port": 8000
   },
   "scripts": {
-    "build": "rc-tools run build",
-    "compile": "rc-tools run compile",
-    "gh-pages": "rc-tools run gh-pages",
+    "build": "node_modules/rc-tools/bin/rc-tools.js run build",
+    "compile": "node_modules/rc-tools/bin/rc-tools.js run compile",
+    "gh-pages": "node_modules/rc-tools/bin/rc-tools.js run gh-pages",
     "start": "rc-server",
-    "pub": "rc-tools run pub",
-    "lint": "rc-tools run lint",
-    "watch": "rc-tools run watch",
-    "karma": "rc-tools run karma",
-    "saucelabs": "rc-tools run saucelabs",
-    "my-saucelabs": "rc-tools run my-saucelabs",
-    "browser-test": "rc-tools run browser-test",
-    "browser-test-cover": "rc-tools run browser-test-cover",
-    "clean": "rc-tools run clean"
+    "pub": "node_modules/rc-tools/bin/rc-tools.js run pub",
+    "lint": "node_modules/rc-tools/bin/rc-tools.js run lint",
+    "watch": "node_modules/rc-tools/bin/rc-tools.js run watch",
+    "karma": "node_modules/rc-tools/bin/rc-tools.js run karma",
+    "saucelabs": "node_modules/rc-tools/bin/rc-tools.js run saucelabs",
+    "my-saucelabs": "node_modules/rc-tools/bin/rc-tools.js run my-saucelabs",
+    "browser-test": "node_modules/rc-tools/bin/rc-tools.js run browser-test",
+    "browser-test-cover": "node_modules/rc-tools/bin/rc-tools.js run browser-test-cover",
+    "clean": "node_modules/rc-tools/bin/rc-tools.js run clean"
   },
   "devDependencies": {
     "expect.js": "0.3.x",
@@ -55,5 +55,6 @@
     "lint"
   ],
   "dependencies": {
+    "react-addons-css-transition-group": "^0.14.7"
   }
 }
