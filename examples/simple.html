@@ -266,12 +266,75 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="simple.js?nowrap"></script>
   <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
 
-import <span class="hljs-string">'rc-ywen-mobile-ui/assets/index.css'</span>;
-import {Modal} from <span class="hljs-string">'rc-ywen-mobile-ui'</span>;
-import React from <span class="hljs-string">'react'</span>;
-import ReactDOM from <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-ywen-mobile-ui/assets/index.css'</span>;
+<span class="hljs-keyword">import</span> {showModal, showConfirm, showToast, dismiss} <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-ywen-mobile-ui'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Modal</span> /&gt;</span>, document.getElementById('__react-content'));
+<span class="hljs-comment">/**
+ * we use lib-flexible
+ * @link https://github.com/amfe/lib-flexible
+ */</span>
+
+<span class="hljs-keyword">const</span> flexible = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'script'</span>);
+flexible.src = <span class="hljs-string">'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js'</span>;
+<span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'head'</span>)[<span class="hljs-number">0</span>].appendChild(flexible);
+
+
+<span class="hljs-keyword">const</span> SHOW_MODAL = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_MODAL'</span>);
+<span class="hljs-keyword">const</span> SHOW_CONFIRM = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_CONFIRM'</span>);
+<span class="hljs-keyword">const</span> SHOW_TOAST_INFO = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_TOAST_INFO'</span>);
+<span class="hljs-keyword">const</span> SHOW_TOAST_SUCCESS = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_TOAST_SUCCESS'</span>);
+<span class="hljs-keyword">const</span> SHOW_TOAST_ERROR = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_TOAST_ERROR'</span>);
+
+<span class="hljs-keyword">const</span> Demo = React.createClass({
+  getInitialState() {
+    <span class="hljs-keyword">return</span> {
+      demo: <span class="hljs-string">'none'</span>,
+    };
+  },
+
+  _showDemo(type) {
+    <span class="hljs-keyword">switch</span> (type) {
+      <span class="hljs-keyword">case</span> SHOW_MODAL:
+        showModal({touchMask: ()=&gt; dismiss()});
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> SHOW_CONFIRM:
+        showConfirm({
+          title: <span class="hljs-string">'just a test'</span>,
+          content: <span class="hljs-string">'test '</span>.repeat(<span class="hljs-number">20</span>),
+          confirmBtn: <span class="hljs-string">'ok'</span>,
+          cancelBtn: <span class="hljs-string">'cancel'</span>,
+          confirmCb: ()=&gt; alert(<span class="hljs-string">'you clicked ok!'</span>),
+          cancelCb: ()=&gt; alert(<span class="hljs-string">'you clicked cancel!'</span>),
+        });
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> SHOW_TOAST_INFO:
+        showToast({content: <span class="hljs-string">'toast info with default 1500ms'</span>});
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> SHOW_TOAST_SUCCESS:
+        showToast({type: <span class="hljs-string">'success'</span>, content: <span class="hljs-string">'show success on top with 10000ms'</span>, showTime: <span class="hljs-number">10000</span>, position: <span class="hljs-string">'top'</span>});
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> SHOW_TOAST_ERROR:
+        showToast({type: <span class="hljs-string">'error'</span>, content: <span class="hljs-string">'show error on bottom with a lot of words:'</span> + <span class="hljs-string">'test'</span>.repeat(<span class="hljs-number">20</span>), position: <span class="hljs-string">'bottom'</span>});
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">default</span> :
+        <span class="hljs-keyword">break</span>;
+    }
+  },
+
+  render() {
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_MODAL</span>)}&gt;</span>show Modal<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_CONFIRM</span>)}&gt;</span>show Confirm<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_TOAST_INFO</span>)}&gt;</span>show toast<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_TOAST_SUCCESS</span>)}&gt;</span>show success on top<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_TOAST_ERROR</span>)}&gt;</span>show error on bottom<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
+  },
+});
+
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Demo</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
 </div>
 <a href="https://github.com/yaliyingwy/ywen-mobile-ui">

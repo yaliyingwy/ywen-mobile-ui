@@ -23,11 +23,103 @@ webpackJsonp([0,1],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(163);
+	var _reactDom = __webpack_require__(162);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	_reactDom2['default'].render(_react2['default'].createElement(_rcYwenMobileUi.Modal, null), document.getElementById('__react-content'));
+	/**
+	 * we use lib-flexible
+	 * @link https://github.com/amfe/lib-flexible
+	 */
+	
+	var flexible = document.createElement('script');
+	flexible.src = 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js';
+	document.getElementsByTagName('head')[0].appendChild(flexible);
+	
+	var SHOW_MODAL = Symbol('SHOW_MODAL');
+	var SHOW_CONFIRM = Symbol('SHOW_CONFIRM');
+	var SHOW_TOAST_INFO = Symbol('SHOW_TOAST_INFO');
+	var SHOW_TOAST_SUCCESS = Symbol('SHOW_TOAST_SUCCESS');
+	var SHOW_TOAST_ERROR = Symbol('SHOW_TOAST_ERROR');
+	
+	var Demo = _react2['default'].createClass({
+	  displayName: 'Demo',
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      demo: 'none'
+	    };
+	  },
+	
+	  _showDemo: function _showDemo(type) {
+	    switch (type) {
+	      case SHOW_MODAL:
+	        (0, _rcYwenMobileUi.showModal)({ touchMask: function touchMask() {
+	            return (0, _rcYwenMobileUi.dismiss)();
+	          } });
+	        break;
+	      case SHOW_CONFIRM:
+	        (0, _rcYwenMobileUi.showConfirm)({
+	          title: 'just a test',
+	          content: 'test '.repeat(20),
+	          confirmBtn: 'ok',
+	          cancelBtn: 'cancel',
+	          confirmCb: function confirmCb() {
+	            return alert('you clicked ok!');
+	          },
+	          cancelCb: function cancelCb() {
+	            return alert('you clicked cancel!');
+	          }
+	        });
+	        break;
+	      case SHOW_TOAST_INFO:
+	        (0, _rcYwenMobileUi.showToast)({ content: 'toast info with default 1500ms' });
+	        break;
+	      case SHOW_TOAST_SUCCESS:
+	        (0, _rcYwenMobileUi.showToast)({ type: 'success', content: 'show success on top with 10000ms', showTime: 10000, position: 'top' });
+	        break;
+	      case SHOW_TOAST_ERROR:
+	        (0, _rcYwenMobileUi.showToast)({ type: 'error', content: 'show error on bottom with a lot of words:' + 'test'.repeat(20), position: 'bottom' });
+	        break;
+	      default:
+	        break;
+	    }
+	  },
+	
+	  render: function render() {
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_MODAL) },
+	        'show Modal'
+	      ),
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_CONFIRM) },
+	        'show Confirm'
+	      ),
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_TOAST_INFO) },
+	        'show toast'
+	      ),
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_TOAST_SUCCESS) },
+	        'show success on top'
+	      ),
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_TOAST_ERROR) },
+	        'show error on bottom'
+	      )
+	    );
+	  }
+	});
+	
+	_reactDom2['default'].render(_react2['default'].createElement(Demo, null), document.getElementById('__react-content'));
 
 /***/ },
 /* 2 */
@@ -46,13 +138,13 @@ webpackJsonp([0,1],[
 	  value: true
 	});
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopExportWildcard(obj, defaults) { var newObj = defaults({}, obj); delete newObj['default']; return newObj; }
 	
-	var _srcModal = __webpack_require__(4);
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 	
-	var _srcModal2 = _interopRequireDefault(_srcModal);
+	var _srcYwenMobileUi = __webpack_require__(4);
 	
-	exports.Modal = _srcModal2['default'];
+	_defaults(exports, _interopExportWildcard(_srcYwenMobileUi, _defaults));
 
 /***/ },
 /* 4 */
@@ -64,73 +156,110 @@ webpackJsonp([0,1],[
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	__webpack_require__(2);
 	
 	var _react = __webpack_require__(5);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _className = __webpack_require__(162);
+	var _reactDom = __webpack_require__(162);
 	
-	var _className2 = _interopRequireDefault(_className);
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	exports['default'] = _react2['default'].createClass({
-	  displayName: 'rc-modal',
+	var _Modal = __webpack_require__(163);
 	
-	  propTypes: {
-	    show: _react.PropTypes.bool,
-	    disableScroll: _react.PropTypes.bool,
-	    cancelOnTouch: _react.PropTypes.bool,
-	    className: _react.PropTypes.string,
-	    prefixCls: _react.PropTypes.string,
-	    onDismiss: _react.PropTypes.func,
-	    children: _react.PropTypes.node
-	  },
+	var _Modal2 = _interopRequireDefault(_Modal);
 	
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      prefixCls: 'rc-modal',
-	      className: '',
-	      show: false,
-	      disableScroll: true,
-	      cancelOnTouch: true
-	    };
-	  },
+	var _Confirm = __webpack_require__(164);
 	
-	  getInitialState: function getInitialState() {
-	    return {
-	      show: !!this.props.show
-	    };
-	  },
+	var _Confirm2 = _interopRequireDefault(_Confirm);
 	
-	  _disableScroll: function _disableScroll(e) {
-	    e.preventDefault();
-	    e.stopPropagation();
-	  },
+	var _Toast = __webpack_require__(165);
 	
-	  _touchMask: function _touchMask(e) {
-	    e.stopPropagation();
-	    if (this.props.cancelOnTouch) {
-	      this.setState({
-	        show: false
-	      });
-	    }
-	  },
+	var _Toast2 = _interopRequireDefault(_Toast);
 	
-	  render: function render() {
-	    console.log('hhkh', _className2['default']);
-	    var prefixCls = this.props.prefixCls;
+	var _ID = '_ywen_mobile_ui';
 	
-	    var cls = (0, _className2['default'])({ prefixCls: prefixCls });
-	    return _react2['default'].createElement(
-	      'div',
-	      { className: cls, onTouchMove: this._disableScroll },
-	      this.props.children,
-	      _react2['default'].createElement('div', { onTouchStart: this._touchMask, onClick: this._touchMask, className: this.props.prefixCls + '-mask' })
-	    );
+	var RC_MODAL = Symbol('Modal');
+	var RC_CONFIRM = Symbol('Confirm');
+	var RC_TOAST = Symbol('Toast');
+	var RC_NONE = Symbol('None');
+	
+	var toastTimeout = null;
+	
+	var div = document.getElementById(_ID);
+	if (Object.is(div, null)) {
+	  div = document.createElement('div');
+	  div.id = _ID;
+	  document.body.appendChild(div);
+	}
+	
+	function _render(type, props) {
+	  switch (type) {
+	    case RC_MODAL:
+	      _reactDom2['default'].render(_react2['default'].createElement(_Modal2['default'], { touchMask: props.touchMask }), div);
+	      break;
+	    case RC_CONFIRM:
+	      _reactDom2['default'].render(_react2['default'].createElement(_Confirm2['default'], props), div);
+	      break;
+	    case RC_TOAST:
+	      var showTime = props && props.showTime ? props.showTime : 1500;
+	      _reactDom2['default'].render(_react2['default'].createElement(_Toast2['default'], props), div);
+	      if (toastTimeout) {
+	        clearTimeout(toastTimeout);
+	      }
+	      toastTimeout = setTimeout(function () {
+	        _reactDom2['default'].render(_react2['default'].createElement(_Toast2['default'], _extends({ className: 'rc-toast-hide' }, props)), div);
+	      }, showTime);
+	      break;
+	    default:
+	      _reactDom2['default'].render(_react2['default'].createElement('div', null), div);
 	  }
-	});
-	module.exports = exports['default'];
+	}
+	
+	function dismiss() {
+	  _render(RC_NONE);
+	}
+	
+	function showModal(props) {
+	  _render(RC_MODAL, props);
+	}
+	
+	function showConfirm(props) {
+	  var confirmCb = props.confirmCb;
+	  var cancelCb = props.cancelCb;
+	
+	  var others = _objectWithoutProperties(props, ['confirmCb', 'cancelCb']);
+	
+	  function newConfirmCb() {
+	    dismiss();
+	    confirmCb();
+	  }
+	
+	  function newCancelCb() {
+	    dismiss();
+	    cancelCb();
+	  }
+	  _render(RC_CONFIRM, _extends({ confirmCb: newConfirmCb, cancelCb: newCancelCb }, others));
+	}
+	
+	function showToast(props) {
+	  _render(RC_TOAST, props);
+	}
+	
+	exports.showModal = showModal;
+	exports.showConfirm = showConfirm;
+	exports.showToast = showToast;
+	exports.dismiss = dismiss;
+	exports.Modal = _Modal2['default'];
+	exports.Confirm = _Confirm2['default'];
+	exports.Toast = _Toast2['default'];
 
 /***/ },
 /* 5 */
@@ -9389,6 +9518,7 @@ webpackJsonp([0,1],[
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -9422,8 +9552,6 @@ webpackJsonp([0,1],[
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 	
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -9434,7 +9562,11 @@ webpackJsonp([0,1],[
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 	
@@ -13283,7 +13415,10 @@ webpackJsonp([0,1],[
 	      }
 	    });
 	
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+	
 	    return nativeProps;
 	  }
 	
@@ -18756,7 +18891,7 @@ webpackJsonp([0,1],[
 	
 	'use strict';
 	
-	module.exports = '0.14.6';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 151 */
@@ -19720,148 +19855,12 @@ webpackJsonp([0,1],[
 
 /***/ },
 /* 162 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = className;
-	exports.PropType = PropType;
-	var CLASS_SEPARATOR = '-';
-	
-	var flattenArray = function flattenArray(list) {
-	  return list.reduce(function (reduced, value) {
-	    return reduced.concat(Array.isArray(value) ? flattenArray(value) : value);
-	  }, []);
-	};
-	
-	function flattenClassNames(classNames) {
-	  var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-	
-	  return flattenArray(classNames).reduce(function (reduced, className) {
-	    var type = typeof className;
-	
-	    if (type === 'string' || type === 'number') {
-	      reduced.push(prefix + '' + className);
-	      return reduced;
-	    }
-	
-	    if (type === 'object') {
-	      if (typeof className.toClassList === 'function') {
-	        return reduced.concat(className.toClassList());
-	      }
-	
-	      if (Array.isArray(className)) {
-	        return reduced.concat(flattenClassNames(className, prefix));
-	      }
-	
-	      if (className !== null) {
-	        return reduced.concat(flattenObject(className, prefix));
-	      }
-	    }
-	
-	    return reduced;
-	  }, []);
-	};
-	
-	function flattenObject(obj) {
-	  var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-	
-	  var classNames = [];
-	
-	  for (var key in obj) {
-	    var value = obj[key];
-	
-	    if (Array.isArray(value)) {
-	      var flattened = flattenClassNames(value, prefix + key + CLASS_SEPARATOR);
-	
-	      if (flattened.length) {
-	        classNames = classNames.concat(flattened);
-	      }
-	    } else if (typeof value === 'object') {
-	      var nested = flattenObject(value, prefix + key + CLASS_SEPARATOR);
-	
-	      if (nested.length) {
-	        classNames = classNames.concat(nested);
-	      }
-	    } else if (value) {
-	      // any truthy value
-	      classNames.push(prefix + key + (typeof value !== 'boolean' ? CLASS_SEPARATOR + value : ''));
-	    }
-	  }
-	
-	  return classNames;
-	};
-	
-	function className() {
-	  var map = {};
-	  var array = [];
-	
-	  var joined = undefined;
-	  var instance = undefined;
-	
-	  var add = function add() {
-	    for (var _len2 = arguments.length, newClassNames = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	      newClassNames[_key2] = arguments[_key2];
-	    }
-	
-	    var flatten = flattenClassNames(newClassNames);
-	
-	    for (var index = 0; index < flatten.length; index++) {
-	      if (typeof map[flatten[index]] === 'undefined') {
-	        return className(array.slice(0).concat(flatten));
-	      }
-	    }
-	
-	    return instance;
-	  };
-	
-	  var has = function has(className) {
-	    return typeof map[className] !== 'undefined';
-	  };
-	  var toClassList = function toClassList() {
-	    return array;
-	  };
-	
-	  var toString = function toString() {
-	    if (typeof joined !== 'string') {
-	      joined = array.join(' ');
-	    }
-	
-	    return joined;
-	  };
-	
-	  for (var _len = arguments.length, initialClassNames = Array(_len), _key = 0; _key < _len; _key++) {
-	    initialClassNames[_key] = arguments[_key];
-	  }
-	
-	  var classNames = flattenClassNames(initialClassNames);
-	
-	  if (classNames.length) {
-	    for (var index = 0; index < classNames.length; index++) {
-	      var _className = classNames[index];
-	
-	      if (typeof map[_className] === 'undefined') {
-	        map[_className] = true;
-	        array.push(_className);
-	      }
-	    }
-	  }
-	
-	  instance = { add: add, has: has, toClassList: toClassList, toString: toString };
-	
-	  return instance;
-	}
-	
-	function PropType(props, propName) {
-	  var type = typeof props[propName];
-	
-	  if (type !== 'undefined' && type !== 'string' && type !== 'object') {
-	    return new Error('Invalid ClassNameValue provided.');
-	  }
-	}
+	module.exports = __webpack_require__(7);
+
 
 /***/ },
 /* 163 */
@@ -19869,8 +19868,257 @@ webpackJsonp([0,1],[
 
 	'use strict';
 	
-	module.exports = __webpack_require__(7);
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(5);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	exports['default'] = _react2['default'].createClass({
+	  displayName: 'rc-modal',
+	
+	  propTypes: {
+	    show: _react.PropTypes.bool,
+	    withMask: _react.PropTypes.bool,
+	    disableScroll: _react.PropTypes.bool,
+	    className: _react.PropTypes.string,
+	    prefixCls: _react.PropTypes.string,
+	    touchMask: _react.PropTypes.func,
+	    children: _react.PropTypes.node
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      prefixCls: 'rc-modal',
+	      className: '',
+	      show: true,
+	      withMask: true,
+	      disableScroll: true
+	    };
+	  },
+	
+	  _disableScroll: function _disableScroll(e) {
+	    e.preventDefault();
+	  },
+	
+	  _touchMask: function _touchMask(e) {
+	    if (this.props.touchMask) {
+	      this.props.touchMask(e);
+	    }
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    var _props = this.props;
+	    var prefixCls = _props.prefixCls;
+	    var className = _props.className;
+	
+	    var cls = prefixCls + ' ' + className;
+	    var modal = null;
+	    if (this.props.show) {
+	      modal = _react2['default'].createElement(
+	        'div',
+	        { className: cls, onTouchMove: this._disableScroll },
+	        this.props.children,
+	        (function () {
+	          if (_this.props.withMask) {
+	            return _react2['default'].createElement('div', { onTouchStart: _this._touchMask, onClick: _this._touchMask, className: _this.props.prefixCls + '-mask' });
+	          }
+	        })()
+	      );
+	    } else {
+	      modal = _react2['default'].createElement('div', null);
+	    }
+	
+	    return modal;
+	  }
+	});
+	module.exports = exports['default'];
 
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// export this package's api
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _Modal = __webpack_require__(163);
+	
+	var _Modal2 = _interopRequireDefault(_Modal);
+	
+	var _react = __webpack_require__(5);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	exports['default'] = _react2['default'].createClass({
+	  displayName: 'rc-confrim',
+	
+	  propTypes: {
+	    confirmCb: _react.PropTypes.func.isRequired,
+	    cancelCb: _react.PropTypes.func.isRequired,
+	    title: _react.PropTypes.string,
+	    content: _react.PropTypes.string.isRequired,
+	    confirmBtn: _react.PropTypes.string,
+	    cancelBtn: _react.PropTypes.string,
+	    cancelOnTouch: _react.PropTypes.bool,
+	    show: _react.PropTypes.bool,
+	    withMask: _react.PropTypes.bool,
+	    className: _react.PropTypes.string,
+	    prefixCls: _react.PropTypes.string
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      title: '提示',
+	      confirmBtn: '确定',
+	      cancelBtn: '取消',
+	      content: '确定执行该操作？',
+	      cancelOnTouch: false,
+	      prefixCls: 'rc-confirm',
+	      className: '',
+	      show: true
+	    };
+	  },
+	
+	  _touchMask: function _touchMask() {
+	    if (this.props.cancelOnTouch) {
+	      this.props.cancelCb();
+	    }
+	  },
+	
+	  render: function render() {
+	    var _props = this.props;
+	    var prefixCls = _props.prefixCls;
+	    var className = _props.className;
+	
+	    var cls = prefixCls + ' ' + className;
+	    return _react2['default'].createElement(
+	      _Modal2['default'],
+	      { show: this.props.show, withMask: this.props.withMask, touchMask: this._touchMask },
+	      _react2['default'].createElement(
+	        'div',
+	        { className: cls },
+	        _react2['default'].createElement(
+	          'h4',
+	          { className: this.props.prefixCls + '-title' },
+	          this.props.title
+	        ),
+	        _react2['default'].createElement(
+	          'p',
+	          { className: this.props.prefixCls + '-content' },
+	          this.props.content
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { className: this.props.prefixCls + '-btns' },
+	          _react2['default'].createElement(
+	            'a',
+	            { onClick: this.props.confirmCb },
+	            this.props.confirmBtn
+	          ),
+	          _react2['default'].createElement(
+	            'a',
+	            { onClick: this.props.cancelCb },
+	            this.props.cancelBtn
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// export this package's api
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(5);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	exports['default'] = _react2['default'].createClass({
+	  displayName: 'rc-toast',
+	
+	  propTypes: {
+	    content: _react.PropTypes.string.isRequired,
+	    showTime: _react.PropTypes.number,
+	    className: _react.PropTypes.string,
+	    prefixCls: _react.PropTypes.string,
+	    type: _react.PropTypes.oneOf(['error', 'success', 'info']),
+	    position: _react.PropTypes.oneOf(['top', 'center', 'bottom'])
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      type: 'info',
+	      position: 'center',
+	      showTime: 1500,
+	      prefixCls: 'rc-toast',
+	      className: ''
+	    };
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    var _props = this.props;
+	    var prefixCls = _props.prefixCls;
+	    var className = _props.className;
+	
+	    var cls = prefixCls + ' ' + className;
+	    switch (this.props.position) {
+	      case 'top':
+	        cls += ' ' + prefixCls + '-top';
+	        break;
+	      case 'bottom':
+	        cls += ' ' + prefixCls + '-bottom';
+	        break;
+	      default:
+	        cls += ' ' + prefixCls + '-center';
+	    }
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: cls },
+	      (function () {
+	        if (!Object.is(_this.props.type, 'info')) {
+	          var iconCls = _this.props.prefixCls + '-icon';
+	          if (Object.is(_this.props.type, 'success')) {
+	            iconCls += ' ' + iconCls + '-success';
+	          } else {
+	            iconCls += ' ' + iconCls + '-error';
+	          }
+	          return _react2['default'].createElement('i', { className: iconCls });
+	        }
+	      })(),
+	      _react2['default'].createElement(
+	        'p',
+	        { className: this.props.prefixCls + '-content' },
+	        this.props.content
+	      )
+	    );
+	  }
+	});
+	module.exports = exports['default'];
 
 /***/ }
 ]);
