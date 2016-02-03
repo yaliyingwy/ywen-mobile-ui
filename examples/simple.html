@@ -267,7 +267,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <div class="highlight"><pre><code language="js"><span class="hljs-comment">// use jsx to render html, do not modify simple.html</span>
 
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-ywen-mobile-ui/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> {showModal, showConfirm, showToast, dismiss} <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-ywen-mobile-ui'</span>;
+<span class="hljs-keyword">import</span> {showModal, showConfirm, showToast, showLoading, dismiss} <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-ywen-mobile-ui'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 
@@ -286,6 +286,8 @@ flexible.src = <span class="hljs-string">'http://g.tbcdn.cn/mtb/lib-flexible/0.3
 <span class="hljs-keyword">const</span> SHOW_TOAST_INFO = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_TOAST_INFO'</span>);
 <span class="hljs-keyword">const</span> SHOW_TOAST_SUCCESS = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_TOAST_SUCCESS'</span>);
 <span class="hljs-keyword">const</span> SHOW_TOAST_ERROR = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_TOAST_ERROR'</span>);
+<span class="hljs-keyword">const</span> SHOW_LOADING_WITH_MASK = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_LOADING_WITH_MASK'</span>);
+<span class="hljs-keyword">const</span> SHOW_LOADING_WITHOUT_MASK = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'SHOW_LOADING_WITHOUT_MASK'</span>);
 
 <span class="hljs-keyword">const</span> Demo = React.createClass({
   getInitialState() {
@@ -318,6 +320,12 @@ flexible.src = <span class="hljs-string">'http://g.tbcdn.cn/mtb/lib-flexible/0.3
       <span class="hljs-keyword">case</span> SHOW_TOAST_ERROR:
         showToast({type: <span class="hljs-string">'error'</span>, content: <span class="hljs-string">'show error on bottom with a lot of words:'</span> + <span class="hljs-string">'test'</span>.repeat(<span class="hljs-number">20</span>), position: <span class="hljs-string">'bottom'</span>});
         <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> SHOW_LOADING_WITH_MASK:
+        showLoading({cancelOnTouch: <span class="hljs-literal">true</span>});
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> SHOW_LOADING_WITHOUT_MASK:
+        showLoading({withMask: <span class="hljs-literal">false</span>, cancelOnTouch: <span class="hljs-literal">true</span>, color: <span class="hljs-string">'yellow'</span>});
+        <span class="hljs-keyword">break</span>;
       <span class="hljs-keyword">default</span> :
         <span class="hljs-keyword">break</span>;
     }
@@ -330,6 +338,8 @@ flexible.src = <span class="hljs-string">'http://g.tbcdn.cn/mtb/lib-flexible/0.3
       <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_TOAST_INFO</span>)}&gt;</span>show toast<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_TOAST_SUCCESS</span>)}&gt;</span>show success on top<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_TOAST_ERROR</span>)}&gt;</span>show error on bottom<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_LOADING_WITH_MASK</span>)}&gt;</span>show loading with mask<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this._showDemo.bind(this,</span> <span class="hljs-attribute">SHOW_LOADING_WITHOUT_MASK</span>)}&gt;</span>show loading without mask<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   },
 });

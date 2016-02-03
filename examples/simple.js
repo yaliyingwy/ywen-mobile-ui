@@ -41,6 +41,8 @@ webpackJsonp([0,1],[
 	var SHOW_TOAST_INFO = Symbol('SHOW_TOAST_INFO');
 	var SHOW_TOAST_SUCCESS = Symbol('SHOW_TOAST_SUCCESS');
 	var SHOW_TOAST_ERROR = Symbol('SHOW_TOAST_ERROR');
+	var SHOW_LOADING_WITH_MASK = Symbol('SHOW_LOADING_WITH_MASK');
+	var SHOW_LOADING_WITHOUT_MASK = Symbol('SHOW_LOADING_WITHOUT_MASK');
 	
 	var Demo = _react2['default'].createClass({
 	  displayName: 'Demo',
@@ -81,6 +83,12 @@ webpackJsonp([0,1],[
 	      case SHOW_TOAST_ERROR:
 	        (0, _rcYwenMobileUi.showToast)({ type: 'error', content: 'show error on bottom with a lot of words:' + 'test'.repeat(20), position: 'bottom' });
 	        break;
+	      case SHOW_LOADING_WITH_MASK:
+	        (0, _rcYwenMobileUi.showLoading)({ cancelOnTouch: true });
+	        break;
+	      case SHOW_LOADING_WITHOUT_MASK:
+	        (0, _rcYwenMobileUi.showLoading)({ withMask: false, cancelOnTouch: true, color: 'yellow' });
+	        break;
 	      default:
 	        break;
 	    }
@@ -114,6 +122,16 @@ webpackJsonp([0,1],[
 	        'h1',
 	        { onClick: this._showDemo.bind(this, SHOW_TOAST_ERROR) },
 	        'show error on bottom'
+	      ),
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_LOADING_WITH_MASK) },
+	        'show loading with mask'
+	      ),
+	      _react2['default'].createElement(
+	        'h1',
+	        { onClick: this._showDemo.bind(this, SHOW_LOADING_WITHOUT_MASK) },
+	        'show loading without mask'
 	      )
 	    );
 	  }
@@ -184,11 +202,16 @@ webpackJsonp([0,1],[
 	
 	var _Toast2 = _interopRequireDefault(_Toast);
 	
+	var _Loading = __webpack_require__(166);
+	
+	var _Loading2 = _interopRequireDefault(_Loading);
+	
 	var _ID = '_ywen_mobile_ui';
 	
 	var RC_MODAL = Symbol('Modal');
 	var RC_CONFIRM = Symbol('Confirm');
 	var RC_TOAST = Symbol('Toast');
+	var RC_LOADING = Symbol('Loading');
 	var RC_NONE = Symbol('None');
 	
 	var toastTimeout = null;
@@ -201,6 +224,9 @@ webpackJsonp([0,1],[
 	}
 	
 	function _render(type, props) {
+	  if (toastTimeout) {
+	    clearTimeout(toastTimeout);
+	  }
 	  switch (type) {
 	    case RC_MODAL:
 	      _reactDom2['default'].render(_react2['default'].createElement(_Modal2['default'], { touchMask: props.touchMask }), div);
@@ -211,12 +237,12 @@ webpackJsonp([0,1],[
 	    case RC_TOAST:
 	      var showTime = props && props.showTime ? props.showTime : 1500;
 	      _reactDom2['default'].render(_react2['default'].createElement(_Toast2['default'], props), div);
-	      if (toastTimeout) {
-	        clearTimeout(toastTimeout);
-	      }
 	      toastTimeout = setTimeout(function () {
 	        _reactDom2['default'].render(_react2['default'].createElement(_Toast2['default'], _extends({ className: 'rc-toast-hide' }, props)), div);
 	      }, showTime);
+	      break;
+	    case RC_LOADING:
+	      _reactDom2['default'].render(_react2['default'].createElement(_Loading2['default'], props), div);
 	      break;
 	    default:
 	      _reactDom2['default'].render(_react2['default'].createElement('div', null), div);
@@ -253,9 +279,14 @@ webpackJsonp([0,1],[
 	  _render(RC_TOAST, props);
 	}
 	
+	function showLoading(props) {
+	  _render(RC_LOADING, props);
+	}
+	
 	exports.showModal = showModal;
 	exports.showConfirm = showConfirm;
 	exports.showToast = showToast;
+	exports.showLoading = showLoading;
 	exports.dismiss = dismiss;
 	exports.Modal = _Modal2['default'];
 	exports.Confirm = _Confirm2['default'];
@@ -20116,6 +20147,92 @@ webpackJsonp([0,1],[
 	        this.props.content
 	      )
 	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// export this package's api
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(5);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Modal = __webpack_require__(163);
+	
+	var _Modal2 = _interopRequireDefault(_Modal);
+	
+	exports['default'] = _react2['default'].createClass({
+	  displayName: 'rc-loading',
+	
+	  propTypes: {
+	    withMask: _react.PropTypes.bool,
+	    cancelOnTouch: _react.PropTypes.bool,
+	    className: _react.PropTypes.string,
+	    prefixCls: _react.PropTypes.string,
+	    color: _react.PropTypes.string
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      prefixCls: 'rc-loading',
+	      className: '',
+	      color: '#fff',
+	      withMask: true,
+	      cancelOnTouch: false
+	    };
+	  },
+	
+	  getInitialState: function getInitialState() {
+	    return {
+	      show: true
+	    };
+	  },
+	
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    this.setState({ show: true });
+	  },
+	
+	  _touchMask: function _touchMask() {
+	    if (this.props.cancelOnTouch) {
+	      this.setState({ show: false });
+	    }
+	  },
+	
+	  render: function render() {
+	    var _props = this.props;
+	    var prefixCls = _props.prefixCls;
+	    var className = _props.className;
+	
+	    var cls = prefixCls + ' ' + className;
+	    var loading = undefined;
+	    if (this.state.show) {
+	      loading = _react2['default'].createElement(
+	        _Modal2['default'],
+	        { withMask: this.props.withMask, touchMask: this._touchMask },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: cls },
+	          _react2['default'].createElement('div', { className: prefixCls + '-bounce ' + prefixCls + '-bounce1', style: { backgroundColor: this.props.color } }),
+	          _react2['default'].createElement('div', { className: prefixCls + '-bounce ' + prefixCls + '-bounce2', style: { backgroundColor: this.props.color } }),
+	          _react2['default'].createElement('div', { className: prefixCls + '-bounce ' + prefixCls + '-bounce3', style: { backgroundColor: this.props.color } })
+	        )
+	      );
+	    } else {
+	      loading = _react2['default'].createElement('div', null);
+	    }
+	
+	    return loading;
 	  }
 	});
 	module.exports = exports['default'];
