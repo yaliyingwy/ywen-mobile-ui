@@ -1,7 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-ywen-mobile-ui/assets/index.less';
-import {showModal, showConfirm, showToast, dismiss} from 'rc-ywen-mobile-ui';
+import {showModal, showConfirm, showToast, showLoading, dismiss} from 'rc-ywen-mobile-ui';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -20,6 +20,8 @@ const SHOW_CONFIRM = Symbol('SHOW_CONFIRM');
 const SHOW_TOAST_INFO = Symbol('SHOW_TOAST_INFO');
 const SHOW_TOAST_SUCCESS = Symbol('SHOW_TOAST_SUCCESS');
 const SHOW_TOAST_ERROR = Symbol('SHOW_TOAST_ERROR');
+const SHOW_LOADING_WITH_MASK = Symbol('SHOW_LOADING_WITH_MASK');
+const SHOW_LOADING_WITHOUT_MASK = Symbol('SHOW_LOADING_WITHOUT_MASK');
 
 const Demo = React.createClass({
   getInitialState() {
@@ -52,6 +54,12 @@ const Demo = React.createClass({
       case SHOW_TOAST_ERROR:
         showToast({type: 'error', content: 'show error on bottom with a lot of words:' + 'test'.repeat(20), position: 'bottom'});
         break;
+      case SHOW_LOADING_WITH_MASK:
+        showLoading({cancelOnTouch: true});
+        break;
+      case SHOW_LOADING_WITHOUT_MASK:
+        showLoading({withMask: false, cancelOnTouch: true, color: 'yellow'});
+        break;
       default :
         break;
     }
@@ -64,6 +72,8 @@ const Demo = React.createClass({
       <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_INFO)}>show toast</h1>
       <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_SUCCESS)}>show success on top</h1>
       <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_ERROR)}>show error on bottom</h1>
+      <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_MASK)}>show loading with mask</h1>
+      <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITHOUT_MASK)}>show loading without mask</h1>
       </div>);
   },
 });

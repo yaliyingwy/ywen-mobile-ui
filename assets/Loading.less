@@ -1,0 +1,46 @@
+@import "common.less";
+@spinnerSize: 40/@ppr;
+@spinnerMargin: 8/@ppr;
+@spinnerColor: #fff;
+@duration: 1.4s;
+@delay: 0.32s;
+@loadingClass: rc-loading;
+
+.@{loadingClass} {
+	width: @spinnerSize * 2;
+	text-align: center;
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	-webkit-transform: translate3d(-50%,-40%,0);
+	transform: translate3d(-50%,-40%,0);
+	z-index: 99999;
+}
+
+.@{loadingClass}-bounce {
+	width: @spinnerSize/2;
+	height: @spinnerSize/2;
+	background-color: @spinnerColor;
+	border-radius: 100%;
+	display: inline-block;
+	animation: @loadingClass @duration ease-in-out 0s infinite both;
+}
+
+.@{loadingClass}-bounce1 {
+	animation-delay: @delay;
+	margin-right: @spinnerMargin;
+}
+
+.@{loadingClass}-bounce2 {
+	animation-delay: @delay / 2;
+	margin-right: @spinnerMargin;
+}
+
+@keyframes @loadingClass {
+	0%, 80%, 100% {
+		transform: scale(0);
+	} 40% {
+		transform: scale(1);
+	}
+}
+

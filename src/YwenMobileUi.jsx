@@ -5,12 +5,14 @@ import ReactDOM from 'react-dom';
 import Modal from './Modal';
 import Confirm from './Confirm';
 import Toast from './Toast';
+import Loading from './Loading';
 
 const _ID = '_ywen_mobile_ui';
 
 const RC_MODAL = Symbol('Modal');
 const RC_CONFIRM = Symbol('Confirm');
 const RC_TOAST = Symbol('Toast');
+const RC_LOADING = Symbol('Loading');
 const RC_NONE = Symbol('None');
 
 let toastTimeout = null;
@@ -23,6 +25,9 @@ if (Object.is(div, null)) {
 }
 
 function _render(type, props) {
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+  }
   switch (type) {
     case RC_MODAL:
       ReactDOM.render(<Modal touchMask={props.touchMask} />, div);
@@ -33,12 +38,12 @@ function _render(type, props) {
     case RC_TOAST:
       const showTime = props && props.showTime ? props.showTime : 1500;
       ReactDOM.render(<Toast {...props} />, div);
-      if (toastTimeout) {
-        clearTimeout(toastTimeout);
-      }
       toastTimeout = setTimeout(()=> {
         ReactDOM.render(<Toast className="rc-toast-hide" {...props} />, div);
       }, showTime);
+      break;
+    case RC_LOADING:
+      ReactDOM.render(<Loading {...props}/>, div);
       break;
     default: ReactDOM.render(<div />, div);
   }
@@ -70,4 +75,8 @@ function showToast(props) {
   _render(RC_TOAST, props);
 }
 
-export {showModal, showConfirm, showToast, dismiss, Modal, Confirm, Toast};
+function showLoading(props) {
+  _render(RC_LOADING, props);
+}
+
+export {showModal, showConfirm, showToast, showLoading, dismiss, Modal, Confirm, Toast};
