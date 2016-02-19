@@ -96,8 +96,7 @@ html {
   text-align: center;
   word-break: break-all;
   opacity: 1;
-  -webkit-transition: opacity 0.25s ease-in-out;
-          transition: opacity 0.25s ease-in-out;
+  visibility: visible;
   z-index: 99999;
 }
 .rc-toast-center {
@@ -123,6 +122,9 @@ html {
 }
 .rc-toast-hide {
   opacity: 0;
+  visibility: hidden;
+  -webkit-transition: visibility .25s, opacity .25s linear;
+          transition: visibility .25s, opacity .25s linear;
 }
 .rc-toast-icon {
   display: block;
