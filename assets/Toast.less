@@ -12,7 +12,7 @@
 	text-align: center;
 	word-break: break-all;
 	opacity: 1;
-	transition: opacity .25s ease-in-out;
+	visibility: visible;
 	z-index: 99999;
 
 }
@@ -43,6 +43,8 @@
 
 .@{toastClass}-hide {
 	opacity: 0;
+	visibility: hidden;
+	transition: visibility .25s, opacity .25s linear;
 }
 
 .@{toastClass}-icon {
