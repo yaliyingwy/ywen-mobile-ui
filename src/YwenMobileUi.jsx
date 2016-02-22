@@ -6,6 +6,7 @@ import Modal from './Modal';
 import Confirm from './Confirm';
 import Toast from './Toast';
 import Loading from './Loading';
+import Image from './Image';
 
 const _ID = '_ywen_mobile_ui';
 
@@ -79,4 +80,14 @@ function showLoading(props) {
   _render(RC_LOADING, props);
 }
 
-export {showModal, showConfirm, showToast, showLoading, dismiss, Modal, Confirm, Toast};
+export {
+  showModal,
+  showConfirm,
+  showToast,
+  showLoading,
+  dismiss,
+  Modal,
+  Confirm,
+  Toast,
+  Image,
+};

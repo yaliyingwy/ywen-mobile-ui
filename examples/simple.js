@@ -1,7 +1,14 @@
 // use jsx to render html, do not modify simple.html
 
 import 'rc-ywen-mobile-ui/assets/index.less';
-import {showModal, showConfirm, showToast, showLoading, dismiss} from 'rc-ywen-mobile-ui';
+import {
+  showModal,
+  showConfirm,
+  showToast,
+  showLoading,
+  dismiss,
+  Image,
+} from 'rc-ywen-mobile-ui';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -67,13 +74,23 @@ const Demo = React.createClass({
 
   render() {
     return (<div>
-      <h1 onClick={this._showDemo.bind(this, SHOW_MODAL)}>show Modal</h1>
-      <h1 onClick={this._showDemo.bind(this, SHOW_CONFIRM)}>show Confirm</h1>
-      <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_INFO)}>show toast</h1>
-      <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_SUCCESS)}>show success on top</h1>
-      <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_ERROR)}>show error on bottom</h1>
-      <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_MASK)}>show loading with mask</h1>
-      <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITHOUT_MASK)}>show loading without mask</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_MODAL)}>show Modal</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_CONFIRM)}>show Confirm</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_INFO)}>show toast</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_SUCCESS)}>show success on top</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_ERROR)}>show error on bottom</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_MASK)}>show loading with mask</h1>
+        <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITHOUT_MASK)}>show loading without mask</h1>
+        <h1> image list </h1>
+        <ul >
+        {(() => {
+          const list = [];
+          for (let i = 0; i < 20; i++) {
+            list.push(<li key={i}><Image style={{backgroud: 'red', display: 'block', width: '200px', height: '200px'}} width="200px" height="200px" src="http://img4.duitang.com/uploads/blog/201406/03/20140603234750_LEQGh.thumb.224_0.jpeg" defaultPic="./default.png" /></li>);
+          }
+          return list;
+        })()}
+        </ul>
       </div>);
   },
 });
