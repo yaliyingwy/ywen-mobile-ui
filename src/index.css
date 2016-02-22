@@ -208,5 +208,15 @@ html {
             transform: scale(1);
   }
 }
+.rc-image {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  -webkit-transition: opacity .35s linear;
+          transition: opacity .35s linear;
+}
+.rc-image-loaded {
+  opacity: 1;
+}
 
 /*# sourceMappingURL=index.css.map*/
