@@ -44,89 +44,12 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164);
+	module.exports = __webpack_require__(162);
 
 
 /***/ },
 /* 1 */,
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _react = __webpack_require__(3);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	exports['default'] = _react2['default'].createClass({
-	  displayName: 'rc-modal',
-	
-	  propTypes: {
-	    show: _react.PropTypes.bool,
-	    withMask: _react.PropTypes.bool,
-	    disableScroll: _react.PropTypes.bool,
-	    className: _react.PropTypes.string,
-	    prefixCls: _react.PropTypes.string,
-	    touchMask: _react.PropTypes.func,
-	    children: _react.PropTypes.node
-	  },
-	
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      prefixCls: 'rc-modal',
-	      className: '',
-	      show: true,
-	      withMask: true,
-	      disableScroll: true
-	    };
-	  },
-	
-	  _disableScroll: function _disableScroll(e) {
-	    e.preventDefault();
-	  },
-	
-	  _touchMask: function _touchMask(e) {
-	    if (this.props.touchMask) {
-	      this.props.touchMask(e);
-	    }
-	  },
-	
-	  render: function render() {
-	    var _this = this;
-	
-	    var _props = this.props;
-	    var prefixCls = _props.prefixCls;
-	    var className = _props.className;
-	
-	    var cls = prefixCls + ' ' + className;
-	    var modal = null;
-	    if (this.props.show) {
-	      modal = _react2['default'].createElement(
-	        'div',
-	        { className: cls, onTouchMove: this._disableScroll },
-	        this.props.children,
-	        (function () {
-	          if (_this.props.withMask) {
-	            return _react2['default'].createElement('div', { onTouchStart: _this._touchMask, onClick: _this._touchMask, className: _this.props.prefixCls + '-mask' });
-	          }
-	        })()
-	      );
-	    } else {
-	      modal = _react2['default'].createElement('div', null);
-	    }
-	
-	    return modal;
-	  }
-	});
-	module.exports = exports['default'];
-
-/***/ },
+/* 2 */,
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -19720,13 +19643,18 @@
 
 /***/ },
 /* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// export this package's api
+	'use strict';
+	
+	module.exports = __webpack_require__(5);
+
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	Object.defineProperty(exports, '__esModule', {
@@ -19739,44 +19667,80 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Modal = __webpack_require__(2);
+	var _reactDom = __webpack_require__(161);
 	
-	var _Modal2 = _interopRequireDefault(_Modal);
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _utilsDomUtil = __webpack_require__(163);
+	
+	// @todo: pullToRefresh
 	exports['default'] = _react2['default'].createClass({
-	  displayName: 'rc-loading',
+	  displayName: 'rc-listview',
 	
 	  propTypes: {
-	    withMask: _react.PropTypes.bool,
-	    cancelOnTouch: _react.PropTypes.bool,
 	    className: _react.PropTypes.string,
 	    prefixCls: _react.PropTypes.string,
-	    color: _react.PropTypes.string
+	    loadMore: _react.PropTypes.func.isRequired,
+	    refresh: _react.PropTypes.func,
+	    threshold: _react.PropTypes.number,
+	    hasMore: _react.PropTypes.bool,
+	    children: _react.PropTypes.node
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
 	    return {
-	      prefixCls: 'rc-loading',
+	      prefixCls: 'rc-listview',
 	      className: '',
-	      color: '#fff',
-	      withMask: true,
-	      cancelOnTouch: false
+	      threshold: 0,
+	      hasMore: true
 	    };
 	  },
 	
-	  getInitialState: function getInitialState() {
-	    return {
-	      show: true
+	  componentDidMount: function componentDidMount() {
+	    this._attachScrollListener();
+	  },
+	
+	  componentDidUpdate: function componentDidUpdate() {
+	    this._attachScrollListener();
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this._detachScrollListener();
+	  },
+	
+	  _attachScrollListener: function _attachScrollListener() {
+	    if (this.props.hasMore) {
+	      window.addEventListener('touchmove', this._onScroll);
+	      this._onScroll();
+	    }
+	  },
+	
+	  _detachScrollListener: function _detachScrollListener() {
+	    window.removeEventListener('touchmove', this._onScroll);
+	  },
+	
+	  _onScroll: function _onScroll() {
+	    var el = _reactDom2['default'].findDOMNode(this);
+	
+	    var lastEl = el.lastElementChild;
+	    if (!lastEl) {
+	      return;
+	    }
+	    var scrollParent = (0, _utilsDomUtil.getScrollParent)(lastEl);
+	    var offset = {
+	      top: this.props.threshold,
+	      left: 0,
+	      bottom: 0,
+	      right: 0
 	    };
-	  },
+	    var visible = (0, _utilsDomUtil.inViewport)(lastEl, scrollParent, offset);
 	
-	  componentWillReceiveProps: function componentWillReceiveProps() {
-	    this.setState({ show: true });
-	  },
+	    console.log('lastEl:', lastEl, ',scrollParent:', scrollParent);
+	    console.log('visible:', visible);
 	
-	  _touchMask: function _touchMask() {
-	    if (this.props.cancelOnTouch) {
-	      this.setState({ show: false });
+	    if (visible) {
+	      this._detachScrollListener();
+	      this.props.loadMore();
 	    }
 	  },
 	
@@ -19786,28 +19750,100 @@
 	    var className = _props.className;
 	
 	    var cls = prefixCls + ' ' + className;
-	    var loading = undefined;
-	    if (this.state.show) {
-	      loading = _react2['default'].createElement(
-	        _Modal2['default'],
-	        { withMask: this.props.withMask, touchMask: this._touchMask },
-	        _react2['default'].createElement(
-	          'div',
-	          { className: cls },
-	          _react2['default'].createElement('div', { className: prefixCls + '-bounce ' + prefixCls + '-bounce1', style: { backgroundColor: this.props.color } }),
-	          _react2['default'].createElement('div', { className: prefixCls + '-bounce ' + prefixCls + '-bounce2', style: { backgroundColor: this.props.color } }),
-	          _react2['default'].createElement('div', { className: prefixCls + '-bounce ' + prefixCls + '-bounce3', style: { backgroundColor: this.props.color } })
-	        )
-	      );
-	    } else {
-	      loading = _react2['default'].createElement('div', null);
-	    }
-	
-	    return loading;
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: cls },
+	      this.props.children
+	    );
 	  }
 	});
 	module.exports = exports['default'];
 
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	function isHidden(el) {
+	  return el.offsetParent === null;
+	}
+	
+	function getOffset(el) {
+	  var rect = el.getBoundingClientRect();
+	  return {
+	    top: rect.top + window.pageYOffset,
+	    left: rect.left + window.pageXOffset
+	  };
+	}
+	
+	function getStyle(el, prop) {
+	  return typeof getComputedStyle !== 'undefined' ? getComputedStyle(el, null).getPropertyValue(prop) : el.style[prop];
+	}
+	
+	function getScrollParent(el) {
+	  if (!(el instanceof HTMLElement)) {
+	    return window;
+	  }
+	
+	  var parent = el;
+	  while (parent) {
+	    if (parent === document.body || parent === document.documentElement) {
+	      break;
+	    }
+	
+	    if (!parent.parentNode) {
+	      break;
+	    }
+	
+	    var overflow = getStyle(parent, 'overflow') + getStyle(parent, 'overflow-y') + getStyle(parent, 'overflow-x');
+	
+	    if (/(scroll|auto)/.test(overflow)) {
+	      return parent;
+	    }
+	
+	    parent = parent.parentNode;
+	  }
+	
+	  return window;
+	}
+	
+	function inViewport(el, container, customOffset) {
+	  if (isHidden(el)) {
+	    return false;
+	  }
+	
+	  var top = undefined;
+	  var left = undefined;
+	  var bottom = undefined;
+	  var right = undefined;
+	  if (typeof container === 'undefined' || container === window) {
+	    top = window.pageYOffset;
+	    left = window.pageXOffset;
+	    bottom = top + window.innerHeight;
+	    right = left + window.innerWidth;
+	  } else {
+	    var containerOffset = getOffset(container);
+	    top = containerOffset.top;
+	    left = containerOffset.left;
+	    bottom = top + container.offsetHeight;
+	    right = left + container.offsetWidth;
+	  }
+	
+	  var elementOffset = getOffset(el);
+	
+	  return top < elementOffset.top + customOffset.bottom + el.offsetHeight && bottom > elementOffset.top - customOffset.top && left < elementOffset.left + customOffset.right + el.offsetWidth && right > elementOffset.left - customOffset.left;
+	}
+	
+	exports.isHidden = isHidden;
+	exports.getOffset = getOffset;
+	exports.getScrollParent = getScrollParent;
+	exports.getStyle = getStyle;
+	exports.inViewport = inViewport;
+
 /***/ }
 /******/ ]);
-//# sourceMappingURL=Loading.js.map
+//# sourceMappingURL=ListView.js.map

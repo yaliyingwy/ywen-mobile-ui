@@ -209,14 +209,27 @@ html {
   }
 }
 .rc-image {
-  width: 100%;
-  height: auto;
-  opacity: 0;
-  -webkit-transition: opacity .35s linear;
-          transition: opacity .35s linear;
+  opacity: 1;
 }
 .rc-image-loaded {
-  opacity: 1;
+  -webkit-animation: loading-img 0.5s ease;
+          animation: loading-img 0.5s ease;
+}
+@-webkit-keyframes loading-img {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes loading-img {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /*# sourceMappingURL=simple.css.map*/

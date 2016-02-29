@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(164);
+	module.exports = __webpack_require__(166);
 
 
 /***/ },
@@ -19845,7 +19845,8 @@
 	
 	  propTypes: {
 	    lazy: _react.PropTypes.bool,
-	    defaultPic: _react.PropTypes.string.isRequired,
+	    errorPic: _react.PropTypes.string.isRequired,
+	    placeholderPic: _react.PropTypes.string.isRequired,
 	    src: _react.PropTypes.string.isRequired,
 	    threshold: _react.PropTypes.number,
 	    className: _react.PropTypes.string,
@@ -19863,33 +19864,40 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      visible: false,
+	      visible: !this.props.lazy,
 	      loaded: false,
 	      error: false
 	    };
 	  },
 	
 	  componentDidMount: function componentDidMount() {
-	    window.addEventListener('scroll', this._onWindowScroll);
-	    window.addEventListener('resize', this._onWindowScroll);
-	    this._onWindowScroll();
+	    if (this.props.lazy) {
+	      window.addEventListener('touchmove', this._onWindowScroll);
+	      window.addEventListener('resize', this._onWindowScroll);
+	      this._onWindowScroll();
+	    }
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
-	    this._onVisible();
+	    if (this.props.lazy) {
+	      this._onVisible();
+	    }
 	  },
 	
 	  _onWindowScroll: function _onWindowScroll() {
-	    var bounds = _reactDom2['default'].findDOMNode(this).getBoundingClientRect();
-	    var hVisible = bounds.left <= 0 || bounds.left <= window.outerWidth + this.props.threshold;
-	    var vVisible = bounds.top <= 0 || bounds.top <= window.outerHeight + this.props.threshold;
+	    var el = _reactDom2['default'].findDOMNode(this);
+	    var rect = el.getBoundingClientRect();
+	
+	    var hVisible = rect.left <= 0 || rect.left < window.innerWidth + this.props.threshold;
+	    var vVisible = rect.top <= 0 || rect.top < window.innerHeight + this.props.threshold;
+	
 	    if (hVisible && vVisible) {
 	      this._onVisible();
 	    }
 	  },
 	
 	  _onVisible: function _onVisible() {
-	    window.removeEventListener('scroll', this._onWindowScroll);
+	    window.removeEventListener('touchmove', this._onWindowScroll);
 	    window.removeEventListener('resize', this._onWindowScroll);
 	    this.setState({
 	      visible: true
@@ -19912,13 +19920,22 @@
 	    var _props = this.props;
 	    var prefixCls = _props.prefixCls;
 	    var src = _props.src;
-	    var defaultPic = _props.defaultPic;
+	    var placeholderPic = _props.placeholderPic;
+	    var errorPic = _props.errorPic;
 	    var className = _props.className;
 	
-	    var props = _objectWithoutProperties(_props, ['prefixCls', 'src', 'defaultPic', 'className']);
+	    var props = _objectWithoutProperties(_props, ['prefixCls', 'src', 'placeholderPic', 'errorPic', 'className']);
 	
-	    var imgSrc = this.state.error ? defaultPic : src;
-	    if (this.state.visible) {
+	    var imgSrc = undefined;
+	    if (this.state.error) {
+	      imgSrc = errorPic;
+	    } else if (this.state.visible) {
+	      imgSrc = src;
+	    } else {
+	      imgSrc = placeholderPic;
+	    }
+	
+	    if (this.state.visible && imgSrc) {
 	      props.src = imgSrc;
 	    }
 	    /** @todo pre loading class */
@@ -19939,6 +19956,199 @@
 
 /***/ },
 /* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(3);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(161);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _utilsDomUtil = __webpack_require__(163);
+	
+	// @todo: pullToRefresh
+	exports['default'] = _react2['default'].createClass({
+	  displayName: 'rc-listview',
+	
+	  propTypes: {
+	    className: _react.PropTypes.string,
+	    prefixCls: _react.PropTypes.string,
+	    loadMore: _react.PropTypes.func.isRequired,
+	    refresh: _react.PropTypes.func,
+	    threshold: _react.PropTypes.number,
+	    hasMore: _react.PropTypes.bool,
+	    children: _react.PropTypes.node
+	  },
+	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      prefixCls: 'rc-listview',
+	      className: '',
+	      threshold: 0,
+	      hasMore: true
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    this._attachScrollListener();
+	  },
+	
+	  componentDidUpdate: function componentDidUpdate() {
+	    this._attachScrollListener();
+	  },
+	
+	  componentWillUnmount: function componentWillUnmount() {
+	    this._detachScrollListener();
+	  },
+	
+	  _attachScrollListener: function _attachScrollListener() {
+	    if (this.props.hasMore) {
+	      window.addEventListener('touchmove', this._onScroll);
+	      this._onScroll();
+	    }
+	  },
+	
+	  _detachScrollListener: function _detachScrollListener() {
+	    window.removeEventListener('touchmove', this._onScroll);
+	  },
+	
+	  _onScroll: function _onScroll() {
+	    var el = _reactDom2['default'].findDOMNode(this);
+	
+	    var lastEl = el.lastElementChild;
+	    if (!lastEl) {
+	      return;
+	    }
+	    var scrollParent = (0, _utilsDomUtil.getScrollParent)(lastEl);
+	    var offset = {
+	      top: this.props.threshold,
+	      left: 0,
+	      bottom: 0,
+	      right: 0
+	    };
+	    var visible = (0, _utilsDomUtil.inViewport)(lastEl, scrollParent, offset);
+	
+	    console.log('lastEl:', lastEl, ',scrollParent:', scrollParent);
+	    console.log('visible:', visible);
+	
+	    if (visible) {
+	      this._detachScrollListener();
+	      this.props.loadMore();
+	    }
+	  },
+	
+	  render: function render() {
+	    var _props = this.props;
+	    var prefixCls = _props.prefixCls;
+	    var className = _props.className;
+	
+	    var cls = prefixCls + ' ' + className;
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: cls },
+	      this.props.children
+	    );
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	function isHidden(el) {
+	  return el.offsetParent === null;
+	}
+	
+	function getOffset(el) {
+	  var rect = el.getBoundingClientRect();
+	  return {
+	    top: rect.top + window.pageYOffset,
+	    left: rect.left + window.pageXOffset
+	  };
+	}
+	
+	function getStyle(el, prop) {
+	  return typeof getComputedStyle !== 'undefined' ? getComputedStyle(el, null).getPropertyValue(prop) : el.style[prop];
+	}
+	
+	function getScrollParent(el) {
+	  if (!(el instanceof HTMLElement)) {
+	    return window;
+	  }
+	
+	  var parent = el;
+	  while (parent) {
+	    if (parent === document.body || parent === document.documentElement) {
+	      break;
+	    }
+	
+	    if (!parent.parentNode) {
+	      break;
+	    }
+	
+	    var overflow = getStyle(parent, 'overflow') + getStyle(parent, 'overflow-y') + getStyle(parent, 'overflow-x');
+	
+	    if (/(scroll|auto)/.test(overflow)) {
+	      return parent;
+	    }
+	
+	    parent = parent.parentNode;
+	  }
+	
+	  return window;
+	}
+	
+	function inViewport(el, container, customOffset) {
+	  if (isHidden(el)) {
+	    return false;
+	  }
+	
+	  var top = undefined;
+	  var left = undefined;
+	  var bottom = undefined;
+	  var right = undefined;
+	  if (typeof container === 'undefined' || container === window) {
+	    top = window.pageYOffset;
+	    left = window.pageXOffset;
+	    bottom = top + window.innerHeight;
+	    right = left + window.innerWidth;
+	  } else {
+	    var containerOffset = getOffset(container);
+	    top = containerOffset.top;
+	    left = containerOffset.left;
+	    bottom = top + container.offsetHeight;
+	    right = left + container.offsetWidth;
+	  }
+	
+	  var elementOffset = getOffset(el);
+	
+	  return top < elementOffset.top + customOffset.bottom + el.offsetHeight && bottom > elementOffset.top - customOffset.top && left < elementOffset.left + customOffset.right + el.offsetWidth && right > elementOffset.left - customOffset.left;
+	}
+	
+	exports.isHidden = isHidden;
+	exports.getOffset = getOffset;
+	exports.getScrollParent = getScrollParent;
+	exports.getStyle = getStyle;
+	exports.inViewport = inViewport;
+
+/***/ },
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// export this package's api
@@ -20024,7 +20234,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 163 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// export this package's api
@@ -20105,7 +20315,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 164 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20120,7 +20330,7 @@
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
-	__webpack_require__(165);
+	__webpack_require__(167);
 	
 	var _react = __webpack_require__(3);
 	
@@ -20138,17 +20348,21 @@
 	
 	var _Confirm2 = _interopRequireDefault(_Confirm);
 	
-	var _Toast = __webpack_require__(163);
+	var _Toast = __webpack_require__(165);
 	
 	var _Toast2 = _interopRequireDefault(_Toast);
 	
-	var _Loading = __webpack_require__(162);
+	var _Loading = __webpack_require__(164);
 	
 	var _Loading2 = _interopRequireDefault(_Loading);
 	
 	var _Image = __webpack_require__(160);
 	
 	var _Image2 = _interopRequireDefault(_Image);
+	
+	var _ListView = __webpack_require__(162);
+	
+	var _ListView2 = _interopRequireDefault(_ListView);
 	
 	var _ID = '_ywen_mobile_ui';
 	
@@ -20236,9 +20450,10 @@
 	exports.Confirm = _Confirm2['default'];
 	exports.Toast = _Toast2['default'];
 	exports.Image = _Image2['default'];
+	exports.ListView = _ListView2['default'];
 
 /***/ },
-/* 165 */
+/* 167 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

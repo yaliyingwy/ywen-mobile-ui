@@ -19670,7 +19670,8 @@
 	
 	  propTypes: {
 	    lazy: _react.PropTypes.bool,
-	    defaultPic: _react.PropTypes.string.isRequired,
+	    errorPic: _react.PropTypes.string.isRequired,
+	    placeholderPic: _react.PropTypes.string.isRequired,
 	    src: _react.PropTypes.string.isRequired,
 	    threshold: _react.PropTypes.number,
 	    className: _react.PropTypes.string,
@@ -19688,33 +19689,40 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      visible: false,
+	      visible: !this.props.lazy,
 	      loaded: false,
 	      error: false
 	    };
 	  },
 	
 	  componentDidMount: function componentDidMount() {
-	    window.addEventListener('scroll', this._onWindowScroll);
-	    window.addEventListener('resize', this._onWindowScroll);
-	    this._onWindowScroll();
+	    if (this.props.lazy) {
+	      window.addEventListener('touchmove', this._onWindowScroll);
+	      window.addEventListener('resize', this._onWindowScroll);
+	      this._onWindowScroll();
+	    }
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
-	    this._onVisible();
+	    if (this.props.lazy) {
+	      this._onVisible();
+	    }
 	  },
 	
 	  _onWindowScroll: function _onWindowScroll() {
-	    var bounds = _reactDom2['default'].findDOMNode(this).getBoundingClientRect();
-	    var hVisible = bounds.left <= 0 || bounds.left <= window.outerWidth + this.props.threshold;
-	    var vVisible = bounds.top <= 0 || bounds.top <= window.outerHeight + this.props.threshold;
+	    var el = _reactDom2['default'].findDOMNode(this);
+	    var rect = el.getBoundingClientRect();
+	
+	    var hVisible = rect.left <= 0 || rect.left < window.innerWidth + this.props.threshold;
+	    var vVisible = rect.top <= 0 || rect.top < window.innerHeight + this.props.threshold;
+	
 	    if (hVisible && vVisible) {
 	      this._onVisible();
 	    }
 	  },
 	
 	  _onVisible: function _onVisible() {
-	    window.removeEventListener('scroll', this._onWindowScroll);
+	    window.removeEventListener('touchmove', this._onWindowScroll);
 	    window.removeEventListener('resize', this._onWindowScroll);
 	    this.setState({
 	      visible: true
@@ -19737,13 +19745,22 @@
 	    var _props = this.props;
 	    var prefixCls = _props.prefixCls;
 	    var src = _props.src;
-	    var defaultPic = _props.defaultPic;
+	    var placeholderPic = _props.placeholderPic;
+	    var errorPic = _props.errorPic;
 	    var className = _props.className;
 	
-	    var props = _objectWithoutProperties(_props, ['prefixCls', 'src', 'defaultPic', 'className']);
+	    var props = _objectWithoutProperties(_props, ['prefixCls', 'src', 'placeholderPic', 'errorPic', 'className']);
 	
-	    var imgSrc = this.state.error ? defaultPic : src;
-	    if (this.state.visible) {
+	    var imgSrc = undefined;
+	    if (this.state.error) {
+	      imgSrc = errorPic;
+	    } else if (this.state.visible) {
+	      imgSrc = src;
+	    } else {
+	      imgSrc = placeholderPic;
+	    }
+	
+	    if (this.state.visible && imgSrc) {
 	      props.src = imgSrc;
 	    }
 	    /** @todo pre loading class */
