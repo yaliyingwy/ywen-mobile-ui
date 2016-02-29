@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react';
 import ReactDom from 'react-dom';
 
-
 export default React.createClass({
   displayName: 'rc-image',
 
   propTypes: {
     lazy: PropTypes.bool,
-    defaultPic: PropTypes.string.isRequired,
+    errorPic: PropTypes.string.isRequired,
+    placeholderPic: PropTypes.string.isRequired,
     src: PropTypes.string.isRequired,
     threshold: PropTypes.number,
     className: PropTypes.string,
@@ -25,33 +25,40 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      visible: false,
+      visible: !this.props.lazy,
       loaded: false,
       error: false,
     };
   },
 
   componentDidMount() {
-    window.addEventListener('scroll', this._onWindowScroll);
-    window.addEventListener('resize', this._onWindowScroll);
-    this._onWindowScroll();
+    if (this.props.lazy) {
+      window.addEventListener('touchmove', this._onWindowScroll);
+      window.addEventListener('resize', this._onWindowScroll);
+      this._onWindowScroll();
+    }
   },
 
   componentWillUnmount() {
-    this._onVisible();
+    if (this.props.lazy) {
+      this._onVisible();
+    }
   },
 
   _onWindowScroll() {
-    const bounds = ReactDom.findDOMNode(this).getBoundingClientRect();
-    const hVisible = (bounds.left <= 0) || (bounds.left <= window.outerWidth + this.props.threshold);
-    const vVisible = (bounds.top <= 0) || (bounds.top <= window.outerHeight + this.props.threshold);
+    const el = ReactDom.findDOMNode(this);
+    const rect = el.getBoundingClientRect();
+
+    const hVisible = rect.left <= 0 || rect.left < window.innerWidth + this.props.threshold;
+    const vVisible = rect.top <= 0 || rect.top < window.innerHeight + this.props.threshold;
+
     if (hVisible && vVisible) {
       this._onVisible();
     }
   },
 
   _onVisible() {
-    window.removeEventListener('scroll', this._onWindowScroll);
+    window.removeEventListener('touchmove', this._onWindowScroll);
     window.removeEventListener('resize', this._onWindowScroll);
     this.setState({
       visible: true,
@@ -71,9 +78,17 @@ export default React.createClass({
   },
 
   render() {
-    const {prefixCls, src, defaultPic, className, ...props} = this.props;
-    const imgSrc = this.state.error ? defaultPic : src;
-    if (this.state.visible) {
+    const {prefixCls, src, placeholderPic, errorPic, className, ...props} = this.props;
+    let imgSrc;
+    if (this.state.error) {
+      imgSrc = errorPic;
+    } else if (this.state.visible) {
+      imgSrc = src;
+    } else {
+      imgSrc = placeholderPic;
+    }
+
+    if (this.state.visible && imgSrc) {
       props.src = imgSrc;
     }
     /** @todo pre loading class */
