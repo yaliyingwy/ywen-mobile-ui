@@ -1,13 +1,15 @@
 // use jsx to render html, do not modify simple.html
 
-import 'rc-ywen-mobile-ui/assets/index.less';
+import 'rc-ywen-mobile-ui/assets/less/lib/sm.less';
+
 import {
-  showModal,
+  showOverlay,
   showConfirm,
   showToast,
   showLoading,
   dismiss,
-  Image,
+  // Image,
+  Progress,
 } from 'rc-ywen-mobile-ui';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,12 +19,12 @@ import ReactDOM from 'react-dom';
  * @link https://github.com/amfe/lib-flexible
  */
 
-const flexible = document.createElement('script');
-flexible.src = 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js';
-document.getElementsByTagName('head')[0].appendChild(flexible);
+// const flexible = document.createElement('script');
+// flexible.src = 'http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js';
+// document.getElementsByTagName('head')[0].appendChild(flexible);
 
 
-const SHOW_MODAL = Symbol('SHOW_MODAL');
+const SHOW_OVERLAY = Symbol('SHOW_OVERLAY');
 const SHOW_CONFIRM = Symbol('SHOW_CONFIRM');
 const SHOW_TOAST_INFO = Symbol('SHOW_TOAST_INFO');
 const SHOW_TOAST_SUCCESS = Symbol('SHOW_TOAST_SUCCESS');
@@ -34,13 +36,20 @@ const Demo = React.createClass({
   getInitialState() {
     return {
       demo: 'none',
+      progress: 0,
     };
+  },
+
+  componentDidMount() {
+    setInterval(() => this.setState({
+      progress: this.state.progress < 100 ? this.state.progress + 1 : 0,
+    }), 300);
   },
 
   _showDemo(type) {
     switch (type) {
-      case SHOW_MODAL:
-        showModal({touchMask: ()=> dismiss()});
+      case SHOW_OVERLAY:
+        showOverlay({touchMask: ()=> dismiss()});
         break;
       case SHOW_CONFIRM:
         showConfirm({
@@ -73,24 +82,92 @@ const Demo = React.createClass({
   },
 
   render() {
-    return (<div>
-        <h1 onClick={this._showDemo.bind(this, SHOW_MODAL)}>show Modal</h1>
-        <h1 onClick={this._showDemo.bind(this, SHOW_CONFIRM)}>show Confirm</h1>
-        <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_INFO)}>show toast</h1>
-        <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_SUCCESS)}>show success on top</h1>
-        <h1 onClick={this._showDemo.bind(this, SHOW_TOAST_ERROR)}>show error on bottom</h1>
-        <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_MASK)}>show loading with mask</h1>
-        <h1 onClick={this._showDemo.bind(this, SHOW_LOADING_WITHOUT_MASK)}>show loading without mask</h1>
-        <h1> image list </h1>
-        <ul >
-        {(() => {
-          const list = [];
-          for (let i = 0; i < 20; i++) {
-            list.push(<li key={i}><Image style={{backgroud: 'red', display: 'block', width: '200px', height: '200px'}} width="200px" height="200px" src="http://img4.duitang.com/uploads/blog/201406/03/20140603234750_LEQGh.thumb.224_0.jpeg" defaultPic="./default.png" /></li>);
-          }
-          return list;
-        })()}
-        </ul>
+    const { progress } = this.state;
+    return (<div className="page page-current">
+        <div className="content">
+          <div className="list-block">
+            <ul>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_OVERLAY)}>
+                    show Overlay
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div className="list-block">
+            <ul>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_CONFIRM)}>
+                    show Confirm
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div className="list-block">
+            <ul>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_TOAST_INFO)}>
+                    show toast
+                  </div>
+                </div>
+              </li>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_TOAST_SUCCESS)}>
+                    show success on top
+                  </div>
+                </div>
+              </li>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_TOAST_ERROR)}>
+                    show error on bottom
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div className="list-block">
+            <ul>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_MASK)}>
+                    show loading with mask
+                  </div>
+                </div>
+              </li>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_LOADING_WITHOUT_MASK)}>
+                    show loading without mask
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div className="card">
+            <div className="card-header">show progress 78%</div>
+            <div className="card-content">
+              <Progress size="10rem" progress={ 78 } />
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header">show progress from 0%~100%</div>
+            <div className="card-content">
+              <Progress size="10rem" progress={ progress } />
+            </div>
+          </div>
+
+        </div>
       </div>);
   },
 });

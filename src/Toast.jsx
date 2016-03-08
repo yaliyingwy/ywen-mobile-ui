@@ -7,6 +7,7 @@ export default React.createClass({
   propTypes: {
     content: PropTypes.string.isRequired,
     showTime: PropTypes.number,
+    show: PropTypes.bool,
     className: PropTypes.string,
     prefixCls: PropTypes.string,
     type: PropTypes.oneOf(['error', 'success', 'info']),
@@ -18,6 +19,7 @@ export default React.createClass({
       type: 'info',
       position: 'center',
       showTime: 1500,
+      show: true,
       prefixCls: 'rc-toast',
       className: '',
     };
@@ -25,8 +27,8 @@ export default React.createClass({
 
 
   render() {
-    const {prefixCls, className} = this.props;
-    let cls = prefixCls + ' ' + className;
+    const {prefixCls, show, className} = this.props;
+    let cls = `${prefixCls} ${show ? '' : prefixCls + '-hide'}  ${className || ''}`;
     switch (this.props.position) {
       case 'top':
         cls += ` ${prefixCls}-top`;

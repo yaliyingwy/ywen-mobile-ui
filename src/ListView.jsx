@@ -64,9 +64,6 @@ export default React.createClass({
     };
     const visible = inViewport(lastEl, scrollParent, offset);
 
-    console.log('lastEl:', lastEl, ',scrollParent:', scrollParent);
-    console.log('visible:', visible);
-
     if (visible) {
       this._detachScrollListener();
       this.props.loadMore();

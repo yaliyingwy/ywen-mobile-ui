@@ -1,6 +1,6 @@
 // export this package's api
 import React, {PropTypes} from 'react';
-import Modal from './Modal';
+import Overlay from './Overlay';
 
 export default React.createClass({
   displayName: 'rc-loading',
@@ -40,17 +40,18 @@ export default React.createClass({
   },
 
   render() {
-    const {prefixCls, className} = this.props;
+    const {prefixCls, className, withMask} = this.props;
     const cls = prefixCls + ' ' + className;
     let loading;
     if (this.state.show) {
-      loading = (<Modal withMask={this.props.withMask} touchMask={this._touchMask}>
-        <div className={cls}>
-          <div className={`${prefixCls}-bounce ${prefixCls}-bounce1`} style={{backgroundColor: this.props.color}} />
-          <div className={`${prefixCls}-bounce ${prefixCls}-bounce2`} style={{backgroundColor: this.props.color}} />
-          <div className={`${prefixCls}-bounce ${prefixCls}-bounce3`} style={{backgroundColor: this.props.color}} />
-        </div>
-        </Modal>);
+      loading = (<div className={cls}>
+          <div className={ `${prefixCls}-spinner` }>
+            <div className={`${prefixCls}-bounce ${prefixCls}-bounce1`} style={{backgroundColor: this.props.color}} />
+            <div className={`${prefixCls}-bounce ${prefixCls}-bounce2`} style={{backgroundColor: this.props.color}} />
+            <div className={`${prefixCls}-bounce ${prefixCls}-bounce3`} style={{backgroundColor: this.props.color}} />
+          </div>
+          <Overlay withMask={ withMask } touchMask={ this._touchMask } />
+        </div>);
     } else {
       loading = <div />;
     }

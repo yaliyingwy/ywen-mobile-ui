@@ -1,4 +1,6 @@
-@import "common.less";
+@import (reference) "variables.less";
+@import "icon.less";
+
 @toastClass: rc-toast;
 
 @radius: 10/@ppr;
@@ -52,6 +54,7 @@
 	width: 100%;
 	font-size: 30/@ppr;
 	padding-top: 10/@ppr;
+	margin-bottom: -20/@ppr;
 	letf: 0;
 }
 
@@ -71,6 +74,6 @@
 
 .@{toastClass}-content {
 	font-size: 15/@ppr;
-	padding: 10/@ppr 20/@ppr 20/@ppr 20/@ppr;
+	padding:  20/@ppr;
 }
 

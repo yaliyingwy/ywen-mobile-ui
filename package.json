@@ -1,6 +1,6 @@
 {
   "name": "rc-ywen-mobile-ui",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "ywen-mobile-ui ui component for react",
   "keywords": [
     "react",
@@ -19,6 +19,7 @@
     "url": "https://github.com/yaliyingwy/ywen-mobile-ui/issues"
   },
   "files": [
+    "src",
     "lib",
     "assets/*"
   ],
@@ -53,7 +54,5 @@
   },
   "pre-commit": [
     "lint"
-  ],
-  "dependencies": {
-  }
+  ]
 }

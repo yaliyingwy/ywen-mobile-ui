@@ -33,7 +33,7 @@ export default React.createClass({
 
   componentDidMount() {
     if (this.props.lazy) {
-      window.addEventListener('touchmove', this._onWindowScroll);
+      window.addEventListener('scroll', this._onWindowScroll, true);
       window.addEventListener('resize', this._onWindowScroll);
       this._onWindowScroll();
     }
@@ -58,7 +58,7 @@ export default React.createClass({
   },
 
   _onVisible() {
-    window.removeEventListener('touchmove', this._onWindowScroll);
+    window.removeEventListener('scroll', this._onWindowScroll, true);
     window.removeEventListener('resize', this._onWindowScroll);
     this.setState({
       visible: true,

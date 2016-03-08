@@ -1,7 +1,7 @@
 /**
  * only require other specs here
  */
-import '../assets/index.less';
+import '../assets/less/index.less';
 import expect from 'expect.js';
 import TestUtils from 'react-addons-test-utils';
 import React from 'react';

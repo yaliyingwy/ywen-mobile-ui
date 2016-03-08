@@ -1,5 +1,5 @@
 // export this package's api
-import Modal from './Modal';
+import Overlay from './Overlay';
 import React, {PropTypes} from 'react';
 
 export default React.createClass({
@@ -7,7 +7,7 @@ export default React.createClass({
 
   propTypes: {
     confirmCb: PropTypes.func.isRequired,
-    cancelCb: PropTypes.func.isRequired,
+    cancelCb: PropTypes.func,
     title: PropTypes.string,
     content: PropTypes.string.isRequired,
     confirmBtn: PropTypes.string,
@@ -21,9 +21,7 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      title: '提示',
       confirmBtn: '确定',
-      cancelBtn: '取消',
       content: '确定执行该操作？',
       cancelOnTouch: false,
       prefixCls: 'rc-confirm',
@@ -33,24 +31,51 @@ export default React.createClass({
   },
 
   _touchMask() {
-    if (this.props.cancelOnTouch) {
+    if (this.props.cancelOnTouch && this.props.cancelCb) {
       this.props.cancelCb();
     }
   },
 
+
   render() {
-    const {prefixCls, className} = this.props;
-    const cls = prefixCls + ' ' + className;
-    return (<Modal show={this.props.show} withMask={this.props.withMask} touchMask={this._touchMask}>
-      <div className={cls}>
-        <h4 className={this.props.prefixCls + '-title'}>{this.props.title}</h4>
-        <p className={this.props.prefixCls + '-content'}>{this.props.content}</p>
-        <div className={this.props.prefixCls + '-btns'}>
-          <a onClick={this.props.confirmCb}>{this.props.confirmBtn}</a>
-          <a onClick={this.props.cancelCb}>{this.props.cancelBtn}</a>
+    const {
+      show,
+      withMask,
+      prefixCls,
+      className,
+      content,
+      confirmBtn,
+      cancelBtn,
+      confirmCb,
+      cancelCb,
+      title,
+    } = this.props;
+
+    const cls = `${prefixCls} ${className}`;
+    const modalCls = `modal modal-${show ? 'in' : 'out'}`;
+
+    return (<div className={ cls }>
+        <div className={ modalCls }>
+          <div className="modal-inner">
+            {(() => {
+              if (title) {
+                return <div className="modal-title">{ title }</div>;
+              }
+            })()}
+            <div className="modal-text">{ content }</div>
+          </div>
+          <div className="modal-buttons">
+            {(() => {
+              if (cancelBtn) {
+                return <span onClick={ cancelCb } className="modal-button">{ cancelBtn }</span>;
+              }
+            })()}
+            <span onClick={ confirmCb } className="modal-button">{ confirmBtn }</span>
+          </div>
         </div>
+
+        <Overlay show={ show } withMask={ withMask } touchMask={ this._touchMask } />
       </div>
-      </Modal>
     );
   },
 });

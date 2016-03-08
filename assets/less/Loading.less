@@ -1,4 +1,5 @@
-@import "common.less";
+@import (reference) "variables.less";
+
 @spinnerSize: 40/@ppr;
 @spinnerMargin: 8/@ppr;
 @spinnerColor: #fff;
@@ -6,10 +7,10 @@
 @delay: 0.32s;
 @loadingClass: rc-loading;
 
-.@{loadingClass} {
+.@{loadingClass}-spinner {
 	width: @spinnerSize * 2;
 	text-align: center;
-	position: fixed;
+	position: absolute;
 	left: 50%;
 	top: 40%;
 	-webkit-transform: translate3d(-50%,-40%,0);
