@@ -1,0 +1,32 @@
+@import "lib/swiper.less";
+
+@carouselClass: rc-carousel;
+
+.@{carouselClass} {
+  .swiper-container();
+  .swiper-container-horizontal();
+  padding-bottom: 0;
+
+  .swiper-wrapper {
+    .swiper-wrapper();
+    overflow-x: hidden;
+  }
+
+  .swiper-slide {
+    .swiper-slide();
+  }
+
+  .swiper-pagination {
+    .swiper-pagination();
+    text-align: right;
+  }
+
+  .swiper-pagination-bullet {
+    .swiper-pagination-bullet();
+  }
+
+  .swiper-pagination-bullet-active {
+    .swiper-pagination-bullet-active();
+    color: red;
+  }
+}

@@ -10,6 +10,7 @@ import Image from './Image';
 import ListView from './ListView';
 import LazyLoad from './LazyLoad';
 import Progress from './Progress';
+import Carousel from './Carousel';
 
 const _ID = '_ywen_mobile_ui';
 
@@ -126,4 +127,5 @@ export {
   ListView,
   LazyLoad,
   Progress,
+  Carousel,
 };
