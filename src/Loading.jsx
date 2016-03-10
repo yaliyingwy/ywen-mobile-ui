@@ -29,8 +29,8 @@ export default React.createClass({
     };
   },
 
-  componentWillReceiveProps() {
-    this.setState({show: true});
+  componentWillReceiveProps(nextProps) {
+    this.setState({ show: nextProps.show });
   },
 
   _touchMask() {
