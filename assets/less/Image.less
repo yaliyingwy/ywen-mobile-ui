@@ -1,17 +1,94 @@
-
-
+@import (reference) "variables.less";
 @imageClass: rc-image;
 
 .@{imageClass} {
-  opacity: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
+.@{imageClass}-unload {
+  opacity: 0;
+}
 
 .@{imageClass}-loaded {
-  animation: loading-img .5s ease;
+  animation: loaded .5s ease;
 }
 
-@keyframes loading-img {
+.@{imageClass}-preloader {
+  height: 20/@ppr;
+  width: 20/@ppr;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  &:before, &:after {
+    position: absolute;
+    display: block;
+    content: '.';
+    color: transparent;
+    width: 15/@ppr;
+    height: 15/@ppr;
+    background: #333;
+    border-radius: 50%;
+    -webkit-animation: loading 1s infinite linear;
+    margin-left: -7.5/@ppr;
+    margin-top: -7.5/@ppr;
+    transition: all .2s;   
+  }
+
+  &:before {
+    background: #e74c3c;
+    bottom: auto;
+    top: 0;
+    right: 0;
+    left: 0;    
+  }
+
+  &:after {
+    background: #c0392b;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    -webkit-animation-delay: -.5s;    
+  }
+}
+
+@keyframes loading {
+  0% {
+    top: 0%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+  }
+  25% {
+    top: 50%;
+    left: 0%;
+  }
+  50% {
+    bottom: auto;
+    top: 100%;
+    right: auto;
+    left: 50%;
+  }
+  75% {
+    top: 50%;
+    bottom: auto;
+    left: 100%;
+    right: auto;
+  }
+  100% {
+    top: 0%;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+  }
+}
+
+@keyframes loaded {
   0%   {opacity: 0;}
   100% {opacity: 1;}
 }

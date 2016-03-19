@@ -1,117 +1,110 @@
-// import React, {PropTypes} from 'react';
-// import ReactDom from 'react-dom';
+import React, {PropTypes} from 'react';
+import Scroller from 'scroller';
 
-// export default React.createClass({
-//   displayName: 'rc-scroller',
+export default React.createClass({
+  displayName: 'rc-scroller',
 
-//   propTypes: {
-//     className: PropTypes.string,
-//     prefixCls: PropTypes.string,
-//     zoomable: PropTypes.bool,
-//     scrollDirection: PropTypes.oneOf(['x', 'y']).isRequired,
-//     children: PropTypes.node,
-//     options: PropTypes.object,
-//   },
+  propTypes: {
+    className: PropTypes.string,
+    prefixCls: PropTypes.string,
+    children: PropTypes.node,
+    options: PropTypes.object,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    contentWidth: PropTypes.string,
+    contentHeight: PropTypes.string,
+    onScroll: PropTypes.func,
+  },
 
-//   getDefaultProps() {
-//     return {
-//       prefixCls: 'rc-overlay',
-//       zoomable: true,
-//     };
-//   },
+  getDefaultProps() {
+    return {
+      prefixCls: 'rc-scroller',
+      contentWidth: '100%',
+      contentHeight: '100%',
+      options: {},
+    };
+  },
 
-//   componentDidMount() {
-//     const container = ReactDom.findDOMNode(this);
-//     const content = container.lastElementChild;
-//     const options = this.props.options || {};
-//     if (this.props.scrollDirection === 'x') {
-//       options.scrollingX = true;
-//     } else {
-//       options.scrollingY = true;
-//     }
-//     options.zooming = this.props.zoomable;
+  getInitialState() {
+    return {
+      scrollLeft: 0,
+      scrollTop: 0,
+    };
+  },
 
-//     const scroller = new Scroller((left, top, zoom) => this._renderFactory(content)(left, top, zoom), options);
+  componentDidMount() {
+    this.createScroller();
+    this.updateScrollingDimensions();
+  },
 
-//     this.setState({ scroller });
-//     this._reflow(container, content, scroller);
-//   },
+  createScroller() {
+    this.scroller = new Scroller(this.handleScroll, this.props.options);
+  },
 
-//   _renderFactory(content) {
-//     const docStyle = document.documentElement.style;
-//     let prefix;
-//     if (window.opera && Object.prototype.toString.call(opera) === '[object Opera]') {
-//       prefix = 'O';
-//     } else if ('MozAppearance' in docStyle) {
-//       prefix = 'Moz';
-//     } else if ('WebkitAppearance' in docStyle) {
-//       prefix = 'Webkit';
-//     } else if (typeof navigator.cpuClass === 'string') {
-//       prefix = 'ms';
-//     }
+  updateScrollingDimensions() {
+    const { container, content } = this.refs;
 
-//     content.style[prefix + 'TransformOrigin'] = 'left top';
+    this.scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight);
+  },
 
-//     const perspectiveProperty = `${prefix}Perspective`;
-//     const transformProperty = `{prefix}Transform`;
-//     const helperElem = document.createElement('div');
-//     let renderFunc;
-//     if (helperElem.style[perspectiveProperty] !== undefined) {
-//       renderFunc = (left, top, zoom) => content.style[transformProperty] = `translate3d(${-left}px,${-top}px,0) scale(${zoom})`;
-//     } else if (helperElem.style[transformProperty] !== undefined) {
-//       renderFunc = (left, top, zoom) => content.style[transformProperty] = `translate(${-left}px,${-top}px scale(${zoom}))`;
-//     } else {
-//       renderFunc = (left, top, zoom) => {
-//         content.style.marginLeft = left ? (-left / zoom) + 'px' : '';
-//         content.style.marginTop = top ? (-top / zoom) + 'px' : '';
-//         content.style.zoom = zoom || '';
-//       };
-//     }
 
-//     return renderFunc;
-//   },
+  handleTouchStart(e) {
+    if (this.scroller) {
+      this.scroller.doTouchStart(e.touches, e.timeStamp);
+    }
+  },
 
-//   _reflow(container, content, scroller) {
-//     scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight);
-//     const rect = container.getBoundingClientRect();
-//     scroller.setPosition(rect.left, container.clientLeft, rect.top, container.clientTop);
-//   },
+  handleTouchMove(e) {
+    if (this.scroller) {
+      e.preventDefault();
+      this.scroller.doTouchMove(e.touches, e.timeStamp, e.scale);
+    }
+  },
 
-//   _bindEvents(container, content, scroller) {
-//     const reflow = this._reflow.bind(this, container, content, scroller);
-//     window.addEventListener('resize', function() {
-//       reflow();
-//     }, false);
-//   },
+  handleTouchEnd(e) {
+    if (this.scroller) {
+      this.scroller.doTouchEnd(e.timeStamp);
+      if (this.props.options.snapping) {
+        this.updateScrollingDeceleration();
+      }
+    }
+  },
 
-//   _touchStart(e) {
-//     if (e.touches[0] && e.touches[0].target && e.touches[0].target.tagName.match(/input|textarea|select/i)) {
-//       return;
-//     }
-//     this.state.scroller.doTouchStart(e.touches, e.timeStamp);
-//     e.preventDefault();
-//   },
+  handleScroll(left, top) {
+    this.setState({ scrollTop: top, scrollLeft: left });
+    if (this.props.onScroll) {
+      this.props.onScroll({ left, top });
+    }
+  },
 
-//   _touchMove(e) {
-//     this.state.scroller.doTouchMove(e.touches, e.timeStamp, e.scale);
-//   },
+  scrollTo(left, top, animate, zoom) {
+    this.scroller.scrollTo(left, top, animate, zoom);
+  },
 
-//   _touchEnd(e) {
-//     this.state.scroller.doTouchEnd(e.timeStamp);
-//   },
+  render() {
+    const {
+      prefixCls,
+      className,
+      children,
+      contentWidth,
+      contentHeight,
+      width,
+      height,
+    } = this.props;
+    const { scrollLeft, scrollTop } = this.state;
+    const cls = `${prefixCls} ${className}`;
 
-//   _touchCancel(e) {
-//     this.state.scroller.doTouchCancel(e.timeStamp);
-//   },
-
-//   render() {
-//     const { prefixCls, className, children } = this.props;
-//     const cls = `${prefixCls} ${className}`;
-
-//     return (<div onTouchStart={ this._touchStart } onTouchMove={ this._touchMove } onTouchEnd={ this._touchEnd } onTouchCancel={ this._touchCancel } className={ cls }>
-//         <div className={ `${prefixCls}-content` }>
-//           { children }
-//         </div>
-//       </div>);
-//   },
-// });
+    return (<div
+      ref="container"
+      onTouchStart={ this.handleTouchStart }
+      onTouchMove={ this.handleTouchMove }
+      onTouchEnd={ this.handleTouchEnd }
+      className={ cls }
+      style={{ width, height }}
+      >
+        <div ref="content" className={ `${prefixCls}-content` } style={{ width: contentWidth, height: contentHeight, transform: `translate3D(${-scrollLeft}px, ${-scrollTop}px, 0)` }}>
+          { children }
+        </div>
+      </div>);
+  },
+});

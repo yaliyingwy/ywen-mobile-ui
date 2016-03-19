@@ -30,9 +30,11 @@
   },
   "scripts": {
     "build": "rc-tools run build",
+    "dev": "rc-tools run dev",
     "compile": "rc-tools run compile",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-server",
+    "serve": "node app.js",
     "pub": "rc-tools run pub",
     "lint": "rc-tools run lint",
     "watch": "rc-tools run watch",
@@ -45,12 +47,15 @@
   },
   "devDependencies": {
     "expect.js": "0.3.x",
+    "express": "^4.13.4",
     "pre-commit": "1.x",
-    "rc-server": "3.x",
-    "rc-tools": "4.x",
+    "rc-tools": "git://github.com/xebest-mobile/rc-tools.git#master",
     "react": "0.14.x",
     "react-addons-test-utils": "0.14.x",
     "react-dom": "0.14.x"
+  },
+  "dependencies": {
+    "scroller": "git://github.com/mjohnston/scroller"
   },
   "pre-commit": [
     "lint"

@@ -8,11 +8,6 @@ import {
   showToast,
   showLoading,
   dismiss,
-  // Image,
-  Progress,
-  Carousel,
-  Scroller,
-  ImageUploader,
 } from 'rc-ywen-mobile-ui';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -30,27 +25,7 @@ const Demo = React.createClass({
   getInitialState() {
     return {
       demo: 'none',
-      progress: 0,
-      images: [
-        'http://a.hiphotos.baidu.com/zhidao/pic/item/18d8bc3eb13533fafae9926cabd3fd1f41345b10.jpg',
-        'http://img2.imgtn.bdimg.com/it/u=3494980167,4088219007&fm=21&gp=0.jpg',
-        'http://img4.imgtn.bdimg.com/it/u=1015159903,1160255847&fm=21&gp=0.jpg',
-        'http://img5.imgtn.bdimg.com/it/u=2292555668,1147946895&fm=21&gp=0.jpg',
-        'http://img0.imgtn.bdimg.com/it/u=2247491008,298062800&fm=21&gp=0.jpg',
-      ],
     };
-  },
-
-  componentDidMount() {
-    const progressInterval = setInterval(() => {
-      if (this.state.progress === 100) {
-        clearInterval(progressInterval);
-        return;
-      }
-      this.setState({
-        progress: this.state.progress < 100 ? this.state.progress + 1 : 0,
-      });
-    }, 300);
   },
 
   _showDemo(type) {
@@ -89,7 +64,6 @@ const Demo = React.createClass({
   },
 
   render() {
-    const { progress, images } = this.state;
     return (<div className="page page-current">
         <div className="content" style={{ paddingBottom: '80px' }}>
           <div className="list-block">
@@ -161,55 +135,6 @@ const Demo = React.createClass({
             </ul>
           </div>
 
-          <div className="card">
-            <div className="card-header">show progress 78%</div>
-            <div className="card-content">
-              <Progress size="10rem" progress={ 78 } />
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-header">show progress from 0%~100%</div>
-            <div className="card-content">
-              <Progress size="10rem" progress={ progress } />
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="card-header">scroller x</div>
-            <div className="card-content">
-              <div style={{ position:'relative', top: '0', left: '0', width: '100%', height: '20rem' }}>
-                <Scroller scrollDirection="x" >
-                {(() => {
-                  return [1, 2, 3, 4, 5].map((text) => {
-                    return <div key={ text } style={{ width: '100%', height: '10rem', background: 'red' }} className="rc-scroller-cell-horizontal">{ text }</div>
-                  });
-                })()}
-                </Scroller>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="card-header">Carousel</div>
-            <div className="card-content">
-              <Carousel width="100%" height="10rem" images={ images } clickFunc={ (index) => alert('click index ', index) } />
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="card-header">Image uploader</div>
-            <div className="card-content">
-              <div style={{ width: '7rem', height: '7rem', background: 'yellow', position: 'relative' }}>
-                <ImageUploader 
-                  uploadUrl="/upload"
-                  uploadKey="file"
-                  selectFile={ (file) => console.log('file', file) }
-                  compressSize={ 1000000 }
-                  onUpload={ (progress) => { console.log('progress---', progress)} } 
-                />
-              </div>
-            </div>
-          </div>
         </div>
       </div>);
   },

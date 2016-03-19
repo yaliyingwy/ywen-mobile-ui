@@ -1,32 +1,41 @@
-@import "lib/swiper.less";
+@import (reference) "lib/mixins.less";
+@import (reference) "variables.less";
 
 @carouselClass: rc-carousel;
 
 .@{carouselClass} {
-  .swiper-container();
-  .swiper-container-horizontal();
-  padding-bottom: 0;
+  position: relative;
+}
 
-  .swiper-wrapper {
-    .swiper-wrapper();
-    overflow-x: hidden;
+.@{carouselClass}-content {
+  .rc-scroller-content {
+    .flexbox();
   }
+  width: 100%;
+  height: 100%;
+}
 
-  .swiper-slide {
-    .swiper-slide();
-  }
 
-  .swiper-pagination {
-    .swiper-pagination();
-    text-align: right;
-  }
+.@{carouselClass}-pagination {
+  position: absolute;
+  bottom: 15/@ppr;
+  right: 15/@ppr;
+  width: 100%;
+  height: 15/@ppr;
+  .flexbox();
+  .justify-content(flex-end);
+}
 
-  .swiper-pagination-bullet {
-    .swiper-pagination-bullet();
-  }
-
-  .swiper-pagination-bullet-active {
-    .swiper-pagination-bullet-active();
-    color: red;
+.@{carouselClass}-pagination-item {
+  width: 15/@ppr;
+  height: 15/@ppr;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.8;
+  margin-left: 10/@ppr;
+  &.active {
+    background: #c61a00;
+    border-radius: 50%;
+    opacity: 1;
   }
 }

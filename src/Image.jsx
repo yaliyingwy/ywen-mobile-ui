@@ -1,13 +1,12 @@
-import React, {PropTypes} from 'react';
-import ReactDom from 'react-dom';
+import React, { PropTypes } from 'react';
+import ErrorPic from '../assets/img/default.png';
 
 export default React.createClass({
   displayName: 'rc-image',
 
   propTypes: {
     lazy: PropTypes.bool,
-    errorPic: PropTypes.string.isRequired,
-    placeholderPic: PropTypes.string.isRequired,
+    errorPic: PropTypes.string,
     src: PropTypes.string.isRequired,
     threshold: PropTypes.number,
     className: PropTypes.string,
@@ -20,6 +19,7 @@ export default React.createClass({
       threshold: 0,
       prefixCls: 'rc-image',
       className: '',
+      errorPic: ErrorPic,
     };
   },
 
@@ -45,9 +45,15 @@ export default React.createClass({
     }
   },
 
+  _checkVisible() {
+    if (!this.state.visible) {
+      this._onWindowScroll();
+    }
+  },
+
   _onWindowScroll() {
-    const el = ReactDom.findDOMNode(this);
-    const rect = el.getBoundingClientRect();
+    const { container } = this.refs;
+    const rect = container.getBoundingClientRect();
 
     const hVisible = rect.left <= 0 || rect.left < window.innerWidth + this.props.threshold;
     const vVisible = rect.top <= 0 || rect.top < window.innerHeight + this.props.threshold;
@@ -78,21 +84,28 @@ export default React.createClass({
   },
 
   render() {
-    const {prefixCls, src, placeholderPic, errorPic, className, ...props} = this.props;
-    let imgSrc;
-    if (this.state.error) {
-      imgSrc = errorPic;
-    } else if (this.state.visible) {
-      imgSrc = src;
-    } else {
-      imgSrc = placeholderPic;
+    const {
+      prefixCls,
+      src,
+      errorPic,
+      className,
+      ...props,
+    } = this.props;
+    const { visible, loaded, error } = this.state;
+
+    const cls = `${prefixCls}  ${className}`;
+    const imgCls = prefixCls + (loaded ? '-loaded' : '-unload');
+    if (visible) {
+      props.src = error ? errorPic : src;
     }
 
-    if (this.state.visible && imgSrc) {
-      props.src = imgSrc;
-    }
-    /** @todo pre loading class */
-    const cls = `${prefixCls}  ${className} ${this.state.loaded ? prefixCls + '-loaded' : ''}`;
-    return (<img onLoad={ this._onLoad } onError={ this._onErr } className={ cls } { ...props } />);
+    return (<div ref="container" className={ cls }>
+        {(() => {
+          if (!visible) {
+            return <div className={ `${prefixCls}-preloader` }></div>;
+          }
+        })()}
+        <img className={ imgCls } onLoad={ this._onLoad } onError={ this._onErr } { ...props } />
+      </div>);
   },
 });

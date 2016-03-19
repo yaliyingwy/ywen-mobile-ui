@@ -57,7 +57,7 @@ export default React.createClass({
 
     return (<div className={ cls } style={{ width: size, height: size }}>
         <div className="loader-bg">
-          <div style={{ lineHeight: size }} className="text">{ progress + '%' }</div>
+          <div className="text">{ progress + '%' }</div>
         </div>
         <div className="spiner-holder-one animate-0-25-a">
           <div style={ style.s0_25 } className="spiner-holder-two animate-0-25-b">
