@@ -34,9 +34,10 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const { autoPlay, playTime, images } = this.props;
+    const { autoPlay, playTime } = this.props;
     if (autoPlay) {
       this.interval = setInterval(() => {
+        const { images } = this.props;
         const { currentIndex } = this.state;
         const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
         const { container, scroller } = this.refs;
