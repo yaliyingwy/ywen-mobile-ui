@@ -101,7 +101,7 @@ export default React.createClass({
 
     return (<div ref="container" className={ cls }>
         {(() => {
-          if (!visible) {
+          if (!loaded && !error) {
             return <div className={ `${prefixCls}-preloader` }></div>;
           }
         })()}
