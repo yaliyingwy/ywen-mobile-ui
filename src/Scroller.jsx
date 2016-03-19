@@ -49,6 +49,7 @@ export default React.createClass({
 
 
   handleTouchStart(e) {
+    console.log('onTouchStart');
     if (this.scroller) {
       this.scroller.doTouchStart(e.touches, e.timeStamp);
     }

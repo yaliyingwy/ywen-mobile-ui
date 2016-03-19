@@ -41,9 +41,17 @@ export default React.createClass({
         const { currentIndex } = this.state;
         const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
         const { container, scroller } = this.refs;
-
+        if (images.length === 0 || !scroller) {
+          throw new Error('images数组里必须有东西，异步网络请求请做判断');
+        }
         scroller.scrollTo( nextIndex * container.clientWidth, 0, true, 1);
       }, playTime);
+    }
+  },
+
+  componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval);
     }
   },
 
