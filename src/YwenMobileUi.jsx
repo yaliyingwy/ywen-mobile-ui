@@ -13,6 +13,7 @@ import Progress from './Progress';
 import Carousel from './Carousel';
 import Scroller from './Scroller';
 import ImageUploader from './ImageUploader';
+import Raty from './Raty';
 
 const _ID = '_ywen_mobile_ui';
 
@@ -132,4 +133,5 @@ export {
   Carousel,
   Scroller,
   ImageUploader,
+  Raty,
 };
