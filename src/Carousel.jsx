@@ -119,7 +119,7 @@ export default React.createClass({
             width={ sWidth }
             height="100%"
             contentWidth={ contentWidth }
-            height= { height }
+            contentHeight= { height }
           >
             { imgCells }
           </Scroller>

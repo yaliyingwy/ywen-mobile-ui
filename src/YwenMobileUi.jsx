@@ -14,6 +14,8 @@ import Carousel from './Carousel';
 import Scroller from './Scroller';
 import ImageUploader from './ImageUploader';
 import Raty from './Raty';
+import Picker from './Picker';
+import DatePicker from './DatePicker';
 
 const _ID = '_ywen_mobile_ui';
 
@@ -134,4 +136,6 @@ export {
   Scroller,
   ImageUploader,
   Raty,
+  Picker,
+  DatePicker,
 };

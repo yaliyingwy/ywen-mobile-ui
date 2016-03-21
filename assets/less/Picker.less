@@ -1,0 +1,93 @@
+@import (reference) "lib/mixins.less";
+@import (reference) "variables.less";
+
+@pickerClass: rc-picker;
+
+.@{pickerClass} {
+  width: 100%;
+}
+
+.@{pickerClass}-container {
+  position: absolute;
+  left: 0;
+  bottom: -520/@ppr;
+  background: #fff;
+  height: 500/@ppr;
+  width: 100%;
+  z-index: 20600;
+  transition: all .5s linear;
+  &.picker-in {
+    transform: translate3D(0, -520/@ppr, 0);
+  }
+}
+
+.@{pickerClass}-bar {
+  height: 80/@ppr;
+  width: 100%;
+  background: #ccc;
+  border-bottom: 1px solid #ececec;
+  .flexbox();
+  .justify-content(space-between);
+
+  .btn {
+    height: 80/@ppr;
+    line-height: 80/@ppr;
+    text-align: center;
+    font-size: 34/@ppr;
+    color: #333;
+    padding: 0 40/@ppr;
+    &:active, &:hover {
+      color: c61a00;
+    }
+  }
+}
+
+.@{pickerClass}-content {
+  position: relative;
+  top: 20/@ppr;
+  left: 0;
+  height: 400/@ppr;
+  width: 100%;
+  .rc-scroller {
+    position: relative;
+  }
+  .flexbox();
+  .justify-content(space-between);
+}
+
+.@{pickerClass}-line {
+  position: absolute;
+  height: 80/@ppr;
+  left: 20/@ppr;
+  width: 600/@ppr;
+  top: 160/@ppr;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+
+.@{pickerClass}-item {
+  height: 80/@ppr;
+  width: 100%;
+  text-align: center;
+  line-height: 80/@ppr;
+  margin: 0;
+  &:first-child {
+    padding-top: 4rem;
+    height: 6rem;
+  }
+
+  &:last-child {
+    padding-bottom: 4rem;
+    height: 6rem;
+  }
+}
+
+
+.@{pickerClass}-modal {
+  .modal-overlay();
+  transition: opacity .5s linear;
+  &.modal-in {
+    visibility: visible;
+    opacity: 1;
+  }
+}

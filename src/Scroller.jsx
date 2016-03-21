@@ -14,6 +14,7 @@ export default React.createClass({
     contentWidth: PropTypes.string,
     contentHeight: PropTypes.string,
     onScroll: PropTypes.func,
+    scrollingComplete: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -37,8 +38,19 @@ export default React.createClass({
     this.updateScrollingDimensions();
   },
 
+  setSnapSize(width, height) {
+    this.scroller.setSnapSize(width, height);
+  },
+
+  getValues() {
+    return this.scroller.getValues();
+  },
+
   createScroller() {
-    this.scroller = new Scroller(this.handleScroll, this.props.options);
+    const options = Object.assign(this.props.options, {
+      scrollingComplete: this.scrollComplete,
+    });
+    this.scroller = new Scroller(this.handleScroll, options);
   },
 
   updateScrollingDimensions() {
@@ -47,9 +59,14 @@ export default React.createClass({
     this.scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight);
   },
 
+  scrollComplete() {
+    const func = this.props.scrollingComplete || this.props.options.scrollingComplete;
+    if (func) {
+      func();
+    }
+  },
 
   handleTouchStart(e) {
-    console.log('onTouchStart');
     if (this.scroller) {
       this.scroller.doTouchStart(e.touches, e.timeStamp);
     }
@@ -65,9 +82,9 @@ export default React.createClass({
   handleTouchEnd(e) {
     if (this.scroller) {
       this.scroller.doTouchEnd(e.timeStamp);
-      if (this.props.options.snapping) {
-        this.updateScrollingDeceleration();
-      }
+      // if (this.props.options.snapping) {
+      //   this.updateScrollingDeceleration();
+      // }
     }
   },
 
