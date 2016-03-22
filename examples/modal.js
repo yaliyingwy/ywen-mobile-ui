@@ -20,6 +20,7 @@ const SHOW_TOAST_SUCCESS = Symbol('SHOW_TOAST_SUCCESS');
 const SHOW_TOAST_ERROR = Symbol('SHOW_TOAST_ERROR');
 const SHOW_LOADING_WITH_MASK = Symbol('SHOW_LOADING_WITH_MASK');
 const SHOW_LOADING_WITHOUT_MASK = Symbol('SHOW_LOADING_WITHOUT_MASK');
+const SHOW_LOADING_WITH_PROGRESS = Symbol('SHOW_LOADING_WITHOUT_PROGRESS');
 
 const Demo = React.createClass({
   getInitialState() {
@@ -57,6 +58,9 @@ const Demo = React.createClass({
         break;
       case SHOW_LOADING_WITHOUT_MASK:
         showLoading({withMask: false, cancelOnTouch: true, color: 'yellow'});
+        break;
+      case SHOW_LOADING_WITH_PROGRESS:
+        showLoading({cancelOnTouch: true, progress: 63});
         break;
       default :
         break;
@@ -122,6 +126,13 @@ const Demo = React.createClass({
                 <div className="item-inner">
                   <div className="item-title" onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_MASK)}>
                     show loading with mask
+                  </div>
+                </div>
+              </li>
+              <li className="item-content">
+                <div className="item-inner">
+                  <div className="item-title" onClick={this._showDemo.bind(this, SHOW_LOADING_WITH_PROGRESS)}>
+                    show loading with progress
                   </div>
                 </div>
               </li>

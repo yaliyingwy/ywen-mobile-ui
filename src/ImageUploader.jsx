@@ -21,6 +21,7 @@ export default React.createClass({
     uploadParams: PropTypes.object,
     uploadKey: PropTypes.string.isRequired,
     uploadUrl: PropTypes.string.isRequired,
+    autoUpload: PropTypes.bool,
   },
 
   getDefaultProps() {
@@ -31,6 +32,7 @@ export default React.createClass({
       compressRate: 0.3,
       compressSize: 50000,
       otherParams: {},
+      autoUpload: false,
     };
   },
 
@@ -48,12 +50,13 @@ export default React.createClass({
       compressRate,
       selectFile,
       afterCompress,
-      uploadUrl,
-      uploadKey,
-      uploadParams,
-      onUpload,
-      uploadDone,
-      uploadFailed,
+      // uploadUrl,
+      // uploadKey,
+      // uploadParams,
+      // onUpload,
+      // uploadDone,
+      // uploadFailed,
+      autoUpload,
     } = this.props;
     const file = e.target.files[0];
     if (selectFile) {
@@ -63,46 +66,62 @@ export default React.createClass({
       if (afterCompress) {
         afterCompress(result);
       }
-      // 上传
-      AjaxUtil.upload({
-        url: uploadUrl,
-        paramDic: { [uploadKey]: result.blob, ...uploadParams },
-        success: (data) => {
-          if (uploadDone) {
-            uploadDone(data);
-          }
-          this.setState({
-            uploading: false,
-            progress: 100,
-          });
-        },
-        error: (data) => {
-          if (uploadFailed) {
-            uploadFailed(data);
-          }
-          this.setState({
-            uploading: false,
-            progress: 0,
-          });
-        },
-        onLoad: (progress) => {
-          if (onUpload) {
-            onUpload(progress);
-          }
-          this.setState({
-            progress,
-          });
-        },
-      });
+
+      if (autoUpload) {
+        this._upload(result);
+      }
 
       this.setState({
         selected: true,
-        uploading: true,
+        uploading: autoUpload,
         progress: 0,
         dataUrl: result.dataUrl,
         blob: result.blob,
       });
     });
+  },
+
+  _upload(result) {
+    const {
+      uploadUrl,
+      uploadKey,
+      uploadParams,
+      onUpload,
+      uploadDone,
+      uploadFailed,
+    } = this.props;
+    // 上传
+    AjaxUtil.upload({
+      url: uploadUrl,
+      paramDic: { [uploadKey]: result.blob, ...uploadParams },
+      success: (data) => {
+        if (uploadDone) {
+          uploadDone(data);
+        }
+        this.setState({
+          uploading: false,
+          progress: 100,
+        });
+      },
+      error: (data) => {
+        if (uploadFailed) {
+          uploadFailed(data);
+        }
+        this.setState({
+          uploading: false,
+          progress: 0,
+        });
+      },
+      onLoad: (progress) => {
+        if (onUpload) {
+          onUpload(progress);
+        }
+        this.setState({
+          uploading: true,
+          progress,
+        });
+      },
+    });    
   },
 
   _clear() {

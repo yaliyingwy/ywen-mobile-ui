@@ -22,14 +22,18 @@ class Ajax {
       }
     };
     req.open(method, method === 'POST' ? url : `${url}?${paramStr}`, true);
-    req.setRequestHeader('Access-Control-Allow-Origin', '*');
     req.send(method === 'POST' ? paramStr : null);
   }
 
   upload({ url, paramDic = {}, success, error, onLoad }) {
     const formData = new FormData();
     Object.keys(paramDic).forEach((key) => {
-      formData.append(key, paramDic[key]);
+      const value = paramDic[key];
+      if (typeof value === 'object') {
+        formData.append(key, value, 'file.jpg');
+      } else {
+        formData.append(key, value);
+      }  
     });
 
     const req = new XMLHttpRequest();

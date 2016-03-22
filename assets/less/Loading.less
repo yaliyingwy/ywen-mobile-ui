@@ -7,6 +7,27 @@
 @delay: 0.32s;
 @loadingClass: rc-loading;
 
+.@{loadingClass} {
+	.rc-progress {
+		z-index: 99999;
+		position: absolute;
+		left: 50%;
+		top: 40%;
+		-webkit-transform: translate3d(-50%,-40%,0);
+		transform: translate3d(-50%,-40%,0);
+		.loader-bg,  {
+			border: 0.3rem solid rgba(255,255,255,0.4);
+		}
+		.loader-spiner {
+			border: 0.3rem solid rgba(255,255,255, 1)
+		}
+		.text {
+			color: #fff;
+			font-size: 60/@ppr;
+		}
+	}
+}
+
 .@{loadingClass}-spinner {
 	width: @spinnerSize * 2;
 	text-align: center;

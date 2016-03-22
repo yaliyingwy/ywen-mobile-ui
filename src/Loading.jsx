@@ -1,6 +1,7 @@
 // export this package's api
 import React, {PropTypes} from 'react';
 import Overlay from './Overlay';
+import Progress from './Progress';
 
 export default React.createClass({
   displayName: 'rc-loading',
@@ -11,6 +12,7 @@ export default React.createClass({
     className: PropTypes.string,
     prefixCls: PropTypes.string,
     color: PropTypes.string,
+    progress: PropTypes.number,
   },
 
   getDefaultProps() {
@@ -40,16 +42,22 @@ export default React.createClass({
   },
 
   render() {
-    const {prefixCls, className, withMask} = this.props;
+    const {prefixCls, className, withMask, progress} = this.props;
     const cls = prefixCls + ' ' + className;
     let loading;
     if (this.state.show) {
-      loading = (<div className={cls}>
-          <div className={ `${prefixCls}-spinner` }>
+      let spinner;
+      if (progress) {
+        spinner = <Progress size="8rem" progress={progress} />;
+      } else {
+        spinner = (<div className={ `${prefixCls}-spinner` }>
             <div className={`${prefixCls}-bounce ${prefixCls}-bounce1`} style={{backgroundColor: this.props.color}} />
             <div className={`${prefixCls}-bounce ${prefixCls}-bounce2`} style={{backgroundColor: this.props.color}} />
             <div className={`${prefixCls}-bounce ${prefixCls}-bounce3`} style={{backgroundColor: this.props.color}} />
-          </div>
+          </div>);
+      }
+      loading = (<div className={cls}>
+          { spinner }
           <Overlay withMask={ withMask } touchMask={ this._touchMask } />
         </div>);
     } else {
