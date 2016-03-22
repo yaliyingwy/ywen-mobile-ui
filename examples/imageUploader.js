@@ -28,8 +28,8 @@ const Demo = React.createClass({
                   uploadKey="file"
                   selectFile={ (file) => console.log('file', file) }
                   compressSize={ 1000000 }
-                  onUpload={ (progress) => { console.log('progress---', progress)} } 
-                  autoUpload={ true }
+                  afterCompress={ (result) => { console.log('compress---', result)} } 
+                  autoUpload={ false }
                 />
               </div>
               <p> reset on error </p>

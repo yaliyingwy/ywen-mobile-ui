@@ -19,8 +19,8 @@ export default React.createClass({
     uploadDone: PropTypes.func,
     uploadFailed: PropTypes.func,
     uploadParams: PropTypes.object,
-    uploadKey: PropTypes.string.isRequired,
-    uploadUrl: PropTypes.string.isRequired,
+    uploadKey: PropTypes.string,
+    uploadUrl: PropTypes.string,
     autoUpload: PropTypes.bool,
   },
 
@@ -50,15 +50,12 @@ export default React.createClass({
       compressRate,
       selectFile,
       afterCompress,
-      // uploadUrl,
-      // uploadKey,
-      // uploadParams,
-      // onUpload,
-      // uploadDone,
-      // uploadFailed,
       autoUpload,
     } = this.props;
     const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
     if (selectFile) {
       selectFile(file);
     }
