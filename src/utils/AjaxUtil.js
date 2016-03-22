@@ -30,7 +30,13 @@ class Ajax {
     Object.keys(paramDic).forEach((key) => {
       const value = paramDic[key];
       if (typeof value === 'object') {
-        formData.append(key, value, 'file.jpg');
+        if (value.constructor === Array) {
+          value.forEach((file) => {
+            formData.append(key, file, 'file.jpg');
+          });
+        } else {
+          formData.append(key, value, 'file.jpg');
+        } 
       } else {
         formData.append(key, value);
       }  
