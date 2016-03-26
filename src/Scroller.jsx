@@ -47,9 +47,8 @@ export default React.createClass({
   },
 
   createScroller() {
-    const options = Object.assign(this.props.options, {
-      scrollingComplete: this.scrollComplete,
-    });
+    const { options } = this.props;
+    options.scrollingComplete = this.scrollComplete;
     this.scroller = new Scroller(this.handleScroll, options);
   },
 
