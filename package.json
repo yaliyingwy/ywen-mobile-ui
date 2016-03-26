@@ -56,7 +56,6 @@
     "react-dom": "0.14.x"
   },
   "dependencies": {
-    "babel-plugin-transform-object-assign": "^6.5.0",
     "scroller": "git://github.com/mjohnston/scroller"
   },
   "pre-commit": [
