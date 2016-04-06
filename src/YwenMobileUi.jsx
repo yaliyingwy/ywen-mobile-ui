@@ -16,6 +16,7 @@ import ImageUploader from './ImageUploader';
 import Raty from './Raty';
 import Picker from './Picker';
 import DatePicker from './DatePicker';
+import FlyToCart from './FlyToCart';
 
 const _ID = '_ywen_mobile_ui';
 
@@ -138,4 +139,5 @@ export {
   Raty,
   Picker,
   DatePicker,
+  FlyToCart,
 };

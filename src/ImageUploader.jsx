@@ -22,6 +22,7 @@ export default React.createClass({
     uploadKey: PropTypes.string,
     uploadUrl: PropTypes.string,
     autoUpload: PropTypes.bool,
+    dataUrl: PropTypes.string,
   },
 
   getDefaultProps() {
@@ -37,8 +38,10 @@ export default React.createClass({
   },
 
   getInitialState() {
+    const { dataUrl } = this.props;
     return {
-      selected: false,
+      selected: dataUrl ? true : false,
+      dataUrl,
       uploading: false,
       progress: 0,
     };

@@ -42,6 +42,10 @@ export default React.createClass({
     this.scroller.setSnapSize(width, height);
   },
 
+  setPosition(left, top) {
+    this.scroller.setPosition(left, top);
+  },
+
   getValues() {
     return this.scroller.getValues();
   },
@@ -110,6 +114,14 @@ export default React.createClass({
     } = this.props;
     const { scrollLeft, scrollTop } = this.state;
     const cls = `${prefixCls} ${className}`;
+    const translate = `translate3D(${-scrollLeft}px, ${-scrollTop}px, 0)`;
+    const style = {
+      WebkitTransform: translate,
+      MozTransform: translate,
+      transform: translate,
+      width: contentWidth,
+      height: contentHeight,
+    };
 
     return (<div
       ref="container"
@@ -119,7 +131,7 @@ export default React.createClass({
       className={ cls }
       style={{ width, height }}
       >
-        <div ref="content" className={ `${prefixCls}-content` } style={{ width: contentWidth, height: contentHeight, transform: `translate3D(${-scrollLeft}px, ${-scrollTop}px, 0)` }}>
+        <div ref="content" className={ `${prefixCls}-content` } style={ style }>
           { children }
         </div>
       </div>);

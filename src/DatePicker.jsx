@@ -108,28 +108,16 @@ export default React.createClass({
           months: newMonths,
           days: newDays,
           selectYear: year,
+          selectMonth: parseInt(newMonths[0], 10),
+          selectDay: parseInt(newDays[0], 10),
         };
-        if (months.length !== newMonths.length) {
-          const minMonth = Number.parseInt(newMonths[0], 10);
-          const maxMonth = Number.parseInt(newMonths[newMonths.length - 1], 10);
-          state.selectMonth = valueBetween({
-            max: maxMonth,
-            min: minMonth,
-            value: selectMonth,
-          });
-        }
-
-        if (days.length !== newDays.length) {
-          const minDay = Number.parseInt(newDays[0], 10);
-          const maxDay = Number.parseInt(newDays[newDays.length - 1], 10);
-          state.selectDay = valueBetween({
-            max: maxDay,
-            min: minDay,
-            value: selectDay,
-          });
-        }
 
         this.setState(state);
+        setTimeout(() => {
+          this.refs.picker.scrollToIndex(1, 0, true);
+          this.refs.picker.scrollToIndex(2, 0, true);           
+        }, 100);
+        
       }
     } else if (group === 1) {
       const month = Number.parseInt(months[index], 10);
@@ -141,6 +129,9 @@ export default React.createClass({
         selectMonth: month,
         selectDay: Number.parseInt(newDays[0], 10),
       });
+      setTimeout(() => {
+        this.refs.picker.scrollToIndex(2, 0, true);           
+      }, 100);
     } else if (group === 2) {
       const day = Number.parseInt(days[index], 10);
       this.setState({

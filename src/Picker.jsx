@@ -57,6 +57,17 @@ export default React.createClass({
     this.refs['scroller_' + group].updateScrollingDimensions();
   },
 
+  scrollToIndex(group, index, anim) {
+    const scroller = this.refs['scroller_' + group];
+    const y = index * 2 * this.rem;
+    console.log('y', y);
+    if (anim) {
+      scroller.scrollTo(0, y, true, 1)
+    } else {
+      scroller.setPosition(0, y);
+    }
+  },
+
   _onScroll(group, { top }) {
     const { onScroll } = this.props;
     if (onScroll) {

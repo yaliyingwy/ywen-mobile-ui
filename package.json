@@ -30,32 +30,18 @@
     "port": 8000
   },
   "scripts": {
-    "build": "rc-tools run build",
-    "dev": "rc-tools run dev",
-    "compile": "rc-tools run compile",
-    "gh-pages": "rc-tools run gh-pages",
-    "start": "rc-server",
-    "serve": "node app.js",
-    "pub": "rc-tools run pub",
-    "lint": "rc-tools run lint",
-    "watch": "rc-tools run watch",
-    "karma": "rc-tools run karma",
-    "saucelabs": "rc-tools run saucelabs",
-    "my-saucelabs": "rc-tools run my-saucelabs",
-    "browser-test": "rc-tools run browser-test",
-    "browser-test-cover": "rc-tools run browser-test-cover",
-    "clean": "rc-tools run clean"
+    "build": "build-tools build -s examples -d build",
+    "dev": "build-tools dev -s examples -d build",
+    "compile": "build-tools compile -s src -d lib"
   },
   "devDependencies": {
-    "expect.js": "0.3.x",
-    "express": "^4.13.4",
     "pre-commit": "1.x",
-    "rc-tools": "git://github.com/xebest-mobile/rc-tools.git#master",
     "react": "0.14.x",
     "react-addons-test-utils": "0.14.x",
     "react-dom": "0.14.x"
   },
   "dependencies": {
+    "rc-ywen-build-tools": "file:../rc-ywen-build-tools",
     "scroller": "git://github.com/mjohnston/scroller"
   },
   "pre-commit": [

@@ -28,24 +28,34 @@ export default React.createClass({
       s75_100: {},
     };
 
+    const transforms = ['WebkitTransform', 'MozTransform', 'transform'];
+
     if (progress < 25) {
       const angle = -90 + (progress / 100) * 360;
-      style.s0_25.transform = `rotate(${angle}deg)`;
+      transforms.forEach((transform) => {
+        style.s0_25[transform] = `rotate(${angle}deg)`;
+      });   
     } else if (progress >= 25 && progress < 50) {
       const angle = -90 + ((progress - 25) / 100) * 360;
-      style.s0_25.transform = 'rotate(0deg)';
-      style.s25_50.transform = `rotate(${angle}deg)`;
+      transforms.forEach((transform) => {
+        style.s0_25[transform] = 'rotate(0deg)';
+        style.s25_50[transform] = `rotate(${angle}deg)`;
+      });
     } else if (progress >= 50 && progress < 75) {
       const angle = -90 + ((progress - 50) / 100) * 360;
-      style.s0_25.transform = 'rotate(0deg)';
-      style.s25_50.transform = 'rotate(0deg)';
-      style.s50_75.transform = `rotate(${angle}deg)`;
+      transforms.forEach((transform) => {
+        style.s0_25[transform] = 'rotate(0deg)';
+        style.s25_50[transform] = 'rotate(0deg)';
+        style.s50_75[transform] = `rotate(${angle}deg)`;
+      });      
     } else if (progress >= 75 && progress <= 100) {
       const angle = -90 + ((progress - 75) / 100) * 360;
-      style.s0_25.transform = 'rotate(0deg)';
-      style.s25_50.transform = 'rotate(0deg)';
-      style.s50_75.transform = 'rotate(0deg)';
-      style.s75_100.transform = `rotate(${angle}deg)`;
+      transforms.forEach((transform) => {
+        style.s0_25[transform] = 'rotate(0deg)';
+        style.s25_50[transform] = 'rotate(0deg)';
+        style.s50_75[transform] = 'rotate(0deg)';
+        style.s75_100[transform] = `rotate(${angle}deg)`;
+      });
     }
     return style;
   },

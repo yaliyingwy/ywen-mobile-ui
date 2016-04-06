@@ -28,7 +28,7 @@ const Demo = React.createClass({
                   uploadKey="file"
                   selectFile={ (file) => console.log('file', file) }
                   compressSize={ 1000000 }
-                  afterCompress={ (result) => { console.log('compress---', result)} } 
+                  afterCompress={ (result) => { console.log('compress---', result); this.setState({ dataUrl: result.dataUrl })} } 
                   autoUpload={ false }
                 />
               </div>
@@ -43,6 +43,21 @@ const Demo = React.createClass({
                   onUpload={ (progress) => { console.log('progress---', progress)} }
                   uploadFailed={ this._clear }
                   autoUpload={ true }
+                />
+              </div>
+
+              <p> set dataUrl  </p>
+              <div style={{ width: '7rem', height: '7rem', background: 'red', position: 'relative' }}>
+                <ImageUploader 
+                  ref="uploader"
+                  uploadUrl="/upload"
+                  uploadKey="file"
+                  selectFile={ (file) => console.log('file', file) }
+                  compressSize={ 1000000 }
+                  onUpload={ (progress) => { console.log('progress---', progress)} }
+                  uploadFailed={ this._clear }
+                  autoUpload={ flase }
+                  dataUrl={ this.state.dataUrl }
                 />
               </div>
             </div>

@@ -15,7 +15,7 @@
   height: 500/@ppr;
   width: 100%;
   z-index: 20600;
-  transition: all .5s linear;
+  transition: all .3s linear;
   &.picker-in {
     transform: translate3D(0, -520/@ppr, 0);
   }
@@ -85,7 +85,7 @@
 
 .@{pickerClass}-modal {
   .modal-overlay();
-  transition: opacity .5s linear;
+  transition: opacity .2s linear .3s;
   &.modal-in {
     visibility: visible;
     opacity: 1;
