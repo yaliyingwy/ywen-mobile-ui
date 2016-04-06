@@ -38,10 +38,10 @@
     "pre-commit": "1.x",
     "react": "0.14.x",
     "react-addons-test-utils": "0.14.x",
+    "rc-ywen-build-tools": "file:../rc-ywen-build-tools",
     "react-dom": "0.14.x"
   },
   "dependencies": {
-    "rc-ywen-build-tools": "file:../rc-ywen-build-tools",
     "scroller": "git://github.com/mjohnston/scroller"
   },
   "pre-commit": [
