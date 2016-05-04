@@ -11,6 +11,7 @@ export default React.createClass({
     startDate: PropTypes.instanceOf(Date),
     endDate: PropTypes.instanceOf(Date),
     selectDate: PropTypes.func.isRequired,
+    type: PropTypes.oneOf(['Date', 'DateTime'])
   },
 
   getDefaultProps() {
@@ -22,6 +23,7 @@ export default React.createClass({
       className: '',
       startDate: now,
       endDate: end,
+      type: 'Date',
     };
   },
 
@@ -39,17 +41,25 @@ export default React.createClass({
     const months = this._getMonths(startMonth);
     const days = this._getDaysInMonth(startMonth, startYear, startDay);
 
+    const hours = this._getHours();
+    const minutes = this._getMinutes();
+
     return {
       selectYear: startYear,
       selectMonth: startMonth,
       selectDay: startDay,
+      selectHour: 0,
+      selectMinute: 0,
+      startYear,
       startMonth,
       startDay,
       endMonth,
       endDay,
       years,
       months,
-      days,  
+      days,
+      hours,
+      minutes,  
     };
   },
 
@@ -77,6 +87,22 @@ export default React.createClass({
       date.setDate(date.getDate() + 1);
     }
     return days;
+  },
+
+  _getHours() {
+    const hours = [];
+    for (let hour = 0; hour < 24; hour++) {
+      hours.push(hour + '时');
+    }
+    return hours;
+  },
+
+  _getMinutes() {
+    const minutes = [];
+    for (let minute = 0; minute < 60; minute++) {
+      minutes.push(minute + '分');
+    }
+    return minutes;
   },
 
   _selectItem({ group, index }) {
@@ -137,15 +163,25 @@ export default React.createClass({
       this.setState({
         selectDay: day,
       });
+    } else if (group === 3) {
+      this.setState({
+        selectHour: index,
+      });
+    } else if (group === 4) {
+      this.setState({
+        selectMinute: index,
+      });
     }
   },
 
   _seletDate() {
-    const { selectYear, selectMonth, selectDay } = this.state;
+    const { selectYear, selectMonth, selectDay, selectHour, selectMinute } = this.state;
     this.props.selectDate({
       year: selectYear,
       month: selectMonth,
       day: selectDay,
+      hour: selectHour,
+      minute: selectMinute,
     });
   },
 
@@ -158,8 +194,13 @@ export default React.createClass({
   },
 
   render() {
-    const { years, months, days } = this.state;
+    const { years, months, days, hours, minutes } = this.state;
+    const { type } = this.props;
     const itemGroups = [years, months, days];
+    if (type === 'DateTime') {
+      itemGroups.push(hours);
+      itemGroups.push(minutes);
+    }
     return <Picker ref="picker" confirmFunc={ this._seletDate } itemGroups={ itemGroups } selectItem={ this._selectItem } />;
   },
 });

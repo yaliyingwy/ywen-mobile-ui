@@ -50,10 +50,12 @@ export default React.createClass({
       if (progress) {
         spinner = <Progress size="8rem" progress={progress} />;
       } else {
-        spinner = (<div className={ `${prefixCls}-spinner` }>
-            <div className={`${prefixCls}-bounce ${prefixCls}-bounce1`} style={{backgroundColor: this.props.color}} />
-            <div className={`${prefixCls}-bounce ${prefixCls}-bounce2`} style={{backgroundColor: this.props.color}} />
-            <div className={`${prefixCls}-bounce ${prefixCls}-bounce3`} style={{backgroundColor: this.props.color}} />
+        spinner = (<div className={ `${prefixCls}-bg ${withMask ? 'hide' : 'show'}` }>
+            <div className={ `${prefixCls}-spinner` }>
+              <div className={`${prefixCls}-bounce ${prefixCls}-bounce1`} style={{backgroundColor: this.props.color}} />
+              <div className={`${prefixCls}-bounce ${prefixCls}-bounce2`} style={{backgroundColor: this.props.color}} />
+              <div className={`${prefixCls}-bounce ${prefixCls}-bounce3`} style={{backgroundColor: this.props.color}} />
+            </div>
           </div>);
       }
       loading = (<div className={cls}>

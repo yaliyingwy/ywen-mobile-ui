@@ -38,6 +38,13 @@ export default React.createClass({
     this.updateScrollingDimensions();
   },
 
+  componentDidUpdate(prevProps) {
+    const { width, height, contentWidth, contentHeight } = this.props;
+    if (prevProps.contentWidth != contentWidth || prevProps.contentHeight != contentHeight) {
+      this.updateScrollingDimensions();
+    }  
+  },
+
   setSnapSize(width, height) {
     this.scroller.setSnapSize(width, height);
   },
@@ -52,14 +59,18 @@ export default React.createClass({
 
   createScroller() {
     const { options } = this.props;
-    options.scrollingComplete = this.scrollComplete;
-    this.scroller = new Scroller(this.handleScroll, options);
+    const newOpt = Object.create(options);
+    newOpt.scrollingComplete = this.scrollComplete;
+    this.scroller = new Scroller(this.handleScroll, newOpt);
   },
 
-  updateScrollingDimensions() {
-    const { container, content } = this.refs;
-
-    this.scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight);
+  updateScrollingDimensions(width, height, contentWidth, contentHeight) {
+    if (width && height && contentWidth && contentHeight) {
+      this.scroller.setDimensions(width, height, contentWidth, contentHeight);
+    } else {
+      const { container, content } = this.refs;
+      this.scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight);
+    }
   },
 
   scrollComplete() {

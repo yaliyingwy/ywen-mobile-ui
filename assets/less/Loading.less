@@ -28,14 +28,32 @@
 	}
 }
 
-.@{loadingClass}-spinner {
-	width: @spinnerSize * 2;
-	text-align: center;
+.@{loadingClass}-bg {
+    width: @spinnerSize * 4;
+    height: @spinnerSize * 2;
 	position: absolute;
 	left: 50%;
 	top: 40%;
 	-webkit-transform: translate3d(-50%,-40%,0);
 	transform: translate3d(-50%,-40%,0);
+	z-index: 99998;
+	border-radius: 10/@ppr;
+	&.show {
+		background: #000;
+	}
+	&.hide {
+		background: transparent;
+	}
+}
+
+.@{loadingClass}-spinner {
+	width: @spinnerSize * 2;
+	text-align: center;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate3d(-50%,-50%,0);
+	transform: translate3d(-50%,-50%,0);
 	z-index: 99999;
 }
 

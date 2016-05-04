@@ -23,7 +23,7 @@ const Demo = React.createClass({
 
 
   render() {
-    const { year, month, day } = this.state;
+    const { year, month, day, hour, minute } = this.state;
     return (<div className="page page-current">
         <div className="content" style={{ paddingBottom: '80px' }}>
 
@@ -40,14 +40,14 @@ const Demo = React.createClass({
               <li className="item-content">
                 <div className="item-inner">
                   <div className="item-title">
-                    { `${year}年${month}月${day}日` } 
+                    { `${year}年${month}月${day}日${hour}:${minute}` } 
                   </div>
                 </div>
               </li>
             </ul>
           </div>
         </div>
-        <DatePicker ref="picker" selectDate={ ({ year, month, day }) => this.setState({ year, month, day }) } />
+        <DatePicker ref="picker" type="DateTime" selectDate={ ({ year, month, day, hour, minute }) => this.setState({ year, month, day, hour, minute }) } />
       </div>);
   },
 });

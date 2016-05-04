@@ -28,21 +28,15 @@ export default React.createClass({
   },
 
   componentDidMount() {
+    this.scrollerHeight = this.refs.scrollers.offsetHeight;
+    this.cellHeight = this.refs.center_line.offsetHeight;
+    this.scrollerPadding = (this.scrollerHeight - this.cellHeight) / 2;
     const { itemGroups } = this.props;
-    this.rem = document.documentElement.style.fontSize.replace('px', '');
     itemGroups.forEach((group, index) => {
       const scroller = this.refs['scroller_' + index];
-      scroller.setSnapSize(0, 2 * this.rem);
+      scroller.setSnapSize(0, this.cellHeight);
+      scroller.updateScrollingDimensions();
     });
-  },
-
-  componentWillReceiveProps(nextProps) {
-    const { itemGroups } = this.props;
-    itemGroups.forEach((group, index) => {
-      if (group.length !== nextProps.itemGroups[index].length) {
-        setTimeout(this.updateScrollingDimensions.bind(this, index), 100);
-      }
-    }); 
   },
 
   show() {
@@ -59,10 +53,9 @@ export default React.createClass({
 
   scrollToIndex(group, index, anim) {
     const scroller = this.refs['scroller_' + group];
-    const y = index * 2 * this.rem;
-    console.log('y', y);
+    const y = index * this.cellHeight;
     if (anim) {
-      scroller.scrollTo(0, y, true, 1)
+      scroller.scrollTo(0, y, true, 1);
     } else {
       scroller.setPosition(0, y);
     }
@@ -83,9 +76,9 @@ export default React.createClass({
     const { itemGroups, selectItem } = this.props;
     const scroller = this.refs['scroller_' + group];
     const { top } = scroller.getValues();
-    const height = scroller.refs.content.offsetHeight;
+
     const max = itemGroups[group].length - 1;
-    let index = max - (height - top - 10 * this.rem) / (2 * this.rem);
+    let index = top  / this.cellHeight;
     index = Math.min(max, Math.max(0, Math.floor(index)));
     selectItem({ group, index });
   },
@@ -122,9 +115,9 @@ export default React.createClass({
     const groups = itemGroups.map((group, index) => {
       const itemList = group.map((item, i) => {
         const itemCls = prefixCls + '-item';
-        return (<p ref={ `item_${i}` } className={ itemCls } key={ i }>{ item }</p>);
+        return (<p className={ itemCls } key={ i }>{ item }</p>);
       });
-      const contentHeight = (2 * group.length + 8) + 'rem';
+      const contentHeight = group.length * this.cellHeight + 2 * this.scrollerPadding;
 
       const scroller = (<Scroller
         ref={ `scroller_${index}` }
@@ -135,7 +128,7 @@ export default React.createClass({
         width="100%"
         height="10rem"
         contentWidth="100%"
-        contentHeight={ contentHeight }
+        contentHeight={ '' + (contentHeight || 1000) }
         >
           { itemList }
         </Scroller>);
@@ -155,8 +148,8 @@ export default React.createClass({
             <a className="btn" onClick={ this._cancel }>取消</a>
             <a className="btn" onClick={ this._confirm }>确定</a>
           </div>
-          <div className={ contentCls }>
-            <div className={ lineCls }></div>
+          <div ref="scrollers" className={ contentCls }>
+            <div ref="center_line" className={ lineCls }></div>
             { groups }
           </div>
         </div>
