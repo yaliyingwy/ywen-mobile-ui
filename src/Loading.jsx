@@ -50,7 +50,7 @@ export default React.createClass({
       if (progress) {
         spinner = <Progress size="8rem" progress={progress} />;
       } else {
-        spinner = (<div className={ `${prefixCls}-bg ${withMask ? 'hide' : 'show'}` }>
+        spinner = (<div className={ `${prefixCls}-bg ${!withMask ? 'show' : ''}` }>
             <div className={ `${prefixCls}-spinner` }>
               <div className={`${prefixCls}-bounce ${prefixCls}-bounce1`} style={{backgroundColor: this.props.color}} />
               <div className={`${prefixCls}-bounce ${prefixCls}-bounce2`} style={{backgroundColor: this.props.color}} />

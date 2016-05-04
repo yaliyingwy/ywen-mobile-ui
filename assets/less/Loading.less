@@ -38,12 +38,11 @@
 	transform: translate3d(-50%,-40%,0);
 	z-index: 99998;
 	border-radius: 10/@ppr;
+	background-color: rgba(0, 0, 0, 1);
 	&.show {
-		background: #000;
+		animation: loading-bg 1s linear;
 	}
-	&.hide {
-		background: transparent;
-	}
+	
 }
 
 .@{loadingClass}-spinner {
@@ -81,6 +80,16 @@
 		transform: scale(0);
 	} 40% {
 		transform: scale(1);
+	}
+}
+
+@keyframes loading-bg {
+	0% {
+		background-color: rgba(0, 0, 0, 0);
+	} 50% {
+		background-color: rgba(0, 0, 0, 0.2);
+	} 100% {
+		background-color: rgba(0, 0, 0, 1);
 	}
 }
 
