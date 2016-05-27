@@ -45,7 +45,7 @@ export default React.createClass({
   _computeScore(x, starWidth, update = false) {
     const { container } = this.refs;
     const { enableHalf, updateScore } = this.props;
-    const offset = x - container.offsetLeft;
+    const offset = x - container.getBoundingClientRect().left;
     const stars = offset / starWidth;
     let score;
     if (enableHalf) {
