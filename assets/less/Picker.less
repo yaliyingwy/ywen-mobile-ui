@@ -26,9 +26,6 @@
   width: 100%;
   background: #ccc;
   border-bottom: 1px solid #ececec;
-  .flexbox();
-  .justify-content(space-between);
-
   .btn {
     height: 80/@ppr;
     line-height: 80/@ppr;
@@ -38,6 +35,9 @@
     padding: 0 40/@ppr;
     &:active, &:hover {
       color: c61a00;
+    }
+    &:last-child {
+      float: right;
     }
   }
 }
