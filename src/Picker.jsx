@@ -125,7 +125,7 @@ export default React.createClass({
         options={ options }
         onScroll={ this._onScroll.bind(this, index) }
         scrollingComplete= { this._scrollEnd.bind(this, index) }
-        width="100%"
+        width={ (100 / itemGroups.length) + '%' }
         height="10rem"
         contentWidth="100%"
         contentHeight={ '' + (contentHeight || 1000) }
