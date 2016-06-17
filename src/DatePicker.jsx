@@ -39,7 +39,7 @@ export default React.createClass({
 
     const years = this._getYears(startYear, endYear);
     const months = this._getMonths(startMonth, startYear === endYear ? endMonth : 12);
-    const days = this._getDaysInMonth(startMonth, startYear, startDay, startYear === endYear && startMonth === endMonth ? endDay : 31);
+    const days = this._getDaysInMonth(startMonth, startYear, startDay, startYear === endYear && endMonth - startMonth <= 1 ? endDay : 31);
 
     const hours = this._getHours();
     const minutes = this._getMinutes();
