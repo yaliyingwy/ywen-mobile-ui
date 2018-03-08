@@ -5,10 +5,23 @@
     "id-length": [0],
     "no-trailing-spaces": [0],
     "indent": [2, 2, {"SwitchCase": 1}],
-    "react/jsx-boolean-value": 0
+    "react/jsx-boolean-value": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "jsx-a11y/click-events-have-key-events": 0,
+    "arrow-body-style": 1,
+    "react/no-find-dom-node": 1,
+    "react/no-multi-comp": 0,
+    "no-return-assign": 2,
+    "react/no-array-index-key": 1,
+    "class-methods-use-this": 0,
+    "prefer-destructuring": 1,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "import/no-extraneous-dependencies": [1],
+    "import/prefer-default-export": [1]
   },
   "env": {
     "node": true,
+    "browser": true,
     "mocha": true
   }
 }

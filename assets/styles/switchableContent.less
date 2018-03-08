@@ -1,0 +1,21 @@
+@import './variables.less';
+
+.@{lib-prefix}-switchable-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .content-wraper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    min-width: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: stretch;
+    transition-duration: @tab-anim-time;
+  }
+}

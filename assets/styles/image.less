@@ -1,0 +1,33 @@
+@import "./variables.less";
+
+.@{lib-prefix}-image {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.@{lib-prefix}-image-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.@{lib-prefix}-image-spinner {
+  border-radius: 100%;
+  width: 40%;
+  height: 40%;
+  animation: image-scaleout 1.0s infinite ease-in-out;
+}
+
+@keyframes image-scaleout {
+  0% {
+    transform: scale(0);
+    background: @image-loader-color-from;
+  }
+  100% {
+    transform: scale(1.0);
+    background: @image-loader-color-to;
+    opacity: 0;
+  }
+}

@@ -1,21 +1,18 @@
-function isHidden(el) {
-  return el.offsetParent === null;
-}
-
-function getOffset(el) {
-  const rect = el.getBoundingClientRect();
+export function getOffset(el) {
+  const rect = el === window ? { top: 0, left: 0 } : el.getBoundingClientRect();
+  // 相对于视窗的坐标 + 视窗滚动的距离
   return {
     top: rect.top + window.pageYOffset,
     left: rect.left + window.pageXOffset,
   };
 }
 
-function getStyle(el, prop) {
+export function getStyle(el, prop) {
   return typeof getComputedStyle !== 'undefined' ? getComputedStyle(el, null).getPropertyValue(prop) : el.style[prop];
 }
 
 
-function getScrollParent(el) {
+export function getScrollParent(el) {
   if (!(el instanceof HTMLElement)) {
     return window;
   }
@@ -42,42 +39,13 @@ function getScrollParent(el) {
   return window;
 }
 
-function inViewport(el, container, customOffset) {
-  if (isHidden(el)) {
-    return false;
-  }
-
-  let top;
-  let left;
-  let bottom;
-  let right;
-  if (typeof container === 'undefined' || container === window) {
-    top = window.pageYOffset;
-    left = window.pageXOffset;
-    bottom = top + window.innerHeight;
-    right = left + window.innerWidth;
-  } else {
-    const containerOffset = getOffset(container);
-    top = containerOffset.top;
-    left = containerOffset.left;
-    bottom = top + container.offsetHeight;
-    right = left + container.offsetWidth;
-  }
-
+export function inViewport(el, container = window, customOffset = { top: 0, left: 0 }) {
   const elementOffset = getOffset(el);
-
-  return (
-    top < elementOffset.top + customOffset.bottom + el.offsetHeight &&
-    bottom > elementOffset.top - customOffset.top &&
-    left < elementOffset.left + customOffset.right + el.offsetWidth &&
-    right > elementOffset.left - customOffset.left
-  );
+  const containerOffset = getOffset(container);
+  const width = container === window ? window.innerWidth : container.offsetWidth;
+  const height = container === window ? window.innerHeight : container.offsetHeight;
+  const xVisible = containerOffset.left + width + customOffset.left > elementOffset.left;
+  const yVisible = containerOffset.top + height + customOffset.top > elementOffset.top;
+  return xVisible && yVisible;
 }
 
-export {
-  isHidden,
-  getOffset,
-  getScrollParent,
-  getStyle,
-  inViewport,
-};

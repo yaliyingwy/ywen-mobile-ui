@@ -1,0 +1,132 @@
+@ppr: 75rem;
+
+html, body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 30/@ppr;
+}
+
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.button {
+  width: 80%;
+  height: 88/@ppr;
+  background: red;
+  border-radius: 8/@ppr;
+  font-size: 34/@ppr;
+  color: white;
+  line-height: 88/@ppr;
+  text-align: center;
+  align-self: center;
+  margin: 40/@ppr 0;
+}
+
+.page {
+  .column;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.5);
+  .content {
+    padding: 50/@ppr;
+    width: 600/@ppr;
+    background: white;
+    font-size: 32/@ppr;
+    line-height: 50/@ppr;
+    color: #333333;
+    border-radius: 8/@ppr;
+  }
+}
+
+.lazy-list {
+  background: yellow;
+  align-self: center;
+  overflow-y: scroll;
+  width: 300/@ppr;
+  height: 800/@ppr;
+  // position: relative;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  // align-items: center;
+
+  .lazy-cell {
+    background: red;
+    color: white;
+    margin: 20/@ppr 0 ;
+    width: 100%;
+    height: 200/@ppr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40/@ppr;
+  }
+  .lazy-image {
+    margin-top: 20/@ppr;
+    width: 300/@ppr;
+    height: 300/@ppr;
+  }
+}
+
+.list-view {
+  background: yellow;
+  position: relative;
+  align-self: center;
+  overflow-y: scroll;
+  width: 300/@ppr;
+  height: 800/@ppr;
+  .list-cell {
+    background: red;
+    color: white;
+    margin: 20/@ppr 0;
+    width: 100%;
+    height: 200/@ppr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40/@ppr;
+  }
+}
+
+.space {
+  display: block;
+  margin: 40/@ppr 0;
+}
+
+.switch-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  .list {
+    flex: 1;
+  }
+}

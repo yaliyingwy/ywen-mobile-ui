@@ -1,0 +1,28 @@
+@import "variables.less";
+
+.@{lib-prefix}-listview-empty {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f5f5f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  p {
+    font-size: 30/@ywen-ppr;
+    color: #999999;
+    text-align: center;
+  }
+}
+
+.@{lib-prefix}-listview-footer {
+  height: 80/@ywen-ppr;
+  line-height: 80/@ywen-ppr;
+  text-align: center;
+  background: #ececec;
+  color: #999999;
+  z-index: 1;
+}

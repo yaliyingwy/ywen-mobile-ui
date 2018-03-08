@@ -1,0 +1,23 @@
+@import './variables.less';
+
+.@{lib-prefix}-toast {
+  z-index: 1003;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 8/@ywen-ppr;
+  text-align: center;
+  font-size: 34/@ywen-ppr;
+  line-height: 50/@ywen-ppr;
+  padding: 20/@ywen-ppr 40/@ywen-ppr;
+  min-height: 80/@ywen-ppr;
+  max-width: 400/@ywen-ppr;
+  word-break: break-all;
+  &.top {
+    position: absolute;
+    top: 50/@ywen-ppr;
+  }
+  &.bottom {
+    position: absolute;
+    bottom: 50/@ywen-ppr;
+  }
+}

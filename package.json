@@ -1,13 +1,11 @@
 {
-  "name": "rc-ywen-mobile-ui",
-  "version": "1.0.5",
-  "description": "ywen-mobile-ui ui component for react",
+  "name": "ywen-mobile-ui",
+  "version": "2.0.0",
+  "description": "some ui components for react on mobile",
   "keywords": [
     "react",
-    "react-component",
     "react-ywen-mobile-ui",
-    "mobile",
-    "ywen-mobile-ui"
+    "mobile"
   ],
   "homepage": "https://github.com/yaliyingwy/ywen-mobile-ui",
   "author": "yaliyingwy@gmail.com",
@@ -19,29 +17,61 @@
     "url": "https://github.com/yaliyingwy/ywen-mobile-ui/issues"
   },
   "files": [
+    "index.js",
     "src",
-    "lib",
+    "dist",
+    "build",
     "examples",
     "assets/*"
   ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
   "licenses": "MIT",
-  "main": "./lib/index",
-  "config": {
-    "port": 8000
-  },
+  "main": "./dist/index.js",
+  "module": "./src/index.js",
   "scripts": {
-    "build": "build-tools build -s examples -d build",
-    "dev": "build-tools dev -s examples -d build",
-    "compile": "build-tools compile -s src -d lib"
+    "lint": "eslint src",
+    "doc": "webpack --config ./webpack/webpack.doc.js",
+    "build": "NODE_ENV=development webpack --config ./webpack/webpack.build.js",
+    "dist": "NODE_ENV=production webpack --config ./webpack/webpack.build.js",
+    "dev": "webpack-dev-server --config ./webpack/webpack.dev.js"
   },
   "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.18",
+    "css-loader": "^0.28.9",
+    "cssnano": "^3.10.0",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "fastclick": "^1.0.6",
+    "gh-pages": "^1.1.0",
+    "html-webpack-plugin": "^2.30.1",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "postcss-loader": "^2.1.0",
+    "postcss-write-svg": "^3.0.1",
     "pre-commit": "1.x",
-    "react": "0.14.x",
-    "react-addons-test-utils": "0.14.x",
-    "rc-ywen-build-tools": "file:../rc-ywen-build-tools",
-    "react-dom": "0.14.x"
+    "style-loader": "^0.20.1",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1",
+    "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "scroller": "git://github.com/mjohnston/scroller"
   },
   "pre-commit": [

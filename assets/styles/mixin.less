@@ -1,0 +1,92 @@
+@import "./variables.less";
+
+// 通过伪元素制造1px的border
+.border-for-dpr(@dpr: 1, @color, @position: all, @radius: 8/@ywen-ppr) {
+  position: relative;
+
+  &:after {
+    display: block;
+    position: absolute;
+    content: '';
+
+    & when (@position = top) {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      background: @color;
+      transform: scaleY(1/@dpr);
+    }
+    
+    & when (@position = bottom) {
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: @color;
+      transform: scaleY(1/@dpr);
+    }
+    
+    & when (@position = left) {
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: @color;
+      transform: scaleX(1/@dpr);
+    }
+    
+    & when (@position = right) {
+      right: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: @color;
+      transform: scaleX(1/@dpr);
+    }
+
+    & when (@position = all) {
+      left: -(@dpr - 1) * 100% / 2;
+      top: -(@dpr - 1) * 100% / 2;
+      width: 100% * @dpr;
+      height: 100% * @dpr;
+      border: 1px solid @color;
+      border-radius: @radius;
+      transform: scale(1/@dpr);
+    }
+  }
+}
+
+// 生成不同dpr设备的媒体查询样式
+.gen-dpr-query(@ddr) {
+  @media only screen and (-webkit-min-device-pixel-ratio: @ddr) {
+    .border-for-dpr(@ddr, @color, @position, @radius);
+  }
+}
+
+
+.border(@color, @position: all, @radius: 8/@ywen-ppr) {
+  & when (@position = all) {
+    border-radius: @radius;
+  }
+
+  & when (@hairlines-support = true) {
+    .gen-dpr-query(1);
+    .gen-dpr-query(1.5);
+    .gen-dpr-query(2);
+    .gen-dpr-query(3);
+  }
+
+  & when not (@hairlines-support = true) {
+    border: 1px solid @color;
+    
+    & when (@position = all) {
+      border-width: 1px;
+    }
+
+    & when not (@position = all) {
+      border-width: 0;
+      border-@{position}-width: 1px;
+    }
+  }
+}
