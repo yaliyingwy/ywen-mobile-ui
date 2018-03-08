@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 class SwitchableContent extends PureComponent {
   constructor(props) {
     super(props);
-    this.displayName = 'SwitchableContent';
     this.state = {
       width: 0,
     };

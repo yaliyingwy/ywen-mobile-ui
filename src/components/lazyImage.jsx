@@ -5,7 +5,6 @@ import LazyLoad from './lazyload';
 class LazyImage extends PureComponent {
   constructor(props) {
     super(props);
-    this.displayName = 'LazyImage';
     this.imageLoad = this.imageLoad.bind(this);
     this.loadImage = this.loadImage.bind(this);
     this.state = {

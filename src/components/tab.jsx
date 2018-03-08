@@ -6,7 +6,6 @@ import { getDimensions } from '../utils/dimensionsUtil';
 class Tab extends PureComponent {
   constructor(props) {
     super(props);
-    this.displayName = 'Tab';
     this.cells = [];
     this.state = {
       positions: [],

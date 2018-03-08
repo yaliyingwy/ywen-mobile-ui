@@ -7,7 +7,6 @@ import { debounce } from '../utils/funcUtil';
 class ListView extends PureComponent {
   constructor(props) {
     super(props);
-    this.displayName = 'ListView';
     this.onScroll = this.onScroll.bind(this);
     this.loadMore = debounce(this.loadMore.bind(this), 800); // 下拉刷新触发间隔800毫秒，防抖动
     this.y = 0;
@@ -45,7 +44,7 @@ class ListView extends PureComponent {
     } = this.props;
     return (
       <div className={className} {...rest} onScroll={this.onScroll}>
-        {children.length === 0 && !hasMore ? empty : children}
+        {(!children || children.length === 0) && !hasMore ? empty : children}
         {loadMore && children.length > 0 && renderFooter ? renderFooter(hasMore) : null}
       </div>
     );

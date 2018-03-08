@@ -4,11 +4,6 @@ import Modal from './modal';
 import { TOAST_MODAL } from '../utils/modalUtil';
 
 class Loading extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.displayName = 'Loading';
-  }
-
   render() {
     const { className } = this.props;
     return (

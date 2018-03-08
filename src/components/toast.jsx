@@ -7,11 +7,6 @@ import { getModalNode, TOAST_MODAL } from '../utils/modalUtil';
 let timestamp = Date.now();
 
 class Toast extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.displayName = 'Toast';
-  }
-
   render() {
     const { text, position, className } = this.props;
     return (

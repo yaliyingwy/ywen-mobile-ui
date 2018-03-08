@@ -2,11 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 class Overlay extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.displayName = 'Overlay';
-  }
-
   render() {
     const { touchFunc, className } = this.props;
     return (
