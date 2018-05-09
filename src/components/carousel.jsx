@@ -36,16 +36,15 @@ class Carousel extends PureComponent {
   }
 
   startTimer = () => {
-    const { autoPlayInterval, imageList } = this.props;
-    console.log('startTimer', autoPlayInterval, imageList);
-    if (autoPlayInterval > 0 && imageList.length > 0) {
+    const { autoPlayInterval } = this.props;
+    if (autoPlayInterval > 0) {
       this.timer = setInterval(() => {
-        if (!this.scroller.isTouching()) {
+        if (!this.scroller.isTouching() && this.props.imageList.length > 0) {
           const scroller = this.scroller.getScroller();
           const { left } = scroller.getValues();
           const width = this.scroller.container.clientWidth;
           const page = Math.round(left / width);
-          const max = imageList.length - 1;
+          const max = this.props.imageList.length - 1;
           let nextPage;
           if (page === max) {
             nextPage = 0;
