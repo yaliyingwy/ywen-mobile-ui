@@ -44,8 +44,8 @@ class ListView extends PureComponent {
     } = this.props;
     return (
       <div className={className} {...rest} onScroll={this.onScroll}>
-        {(!children || children.length === 0) && !hasMore ? empty : children}
-        {loadMore && children.length > 0 && renderFooter ? renderFooter(hasMore) : null}
+        {(!children || children.length === 0 || children.size === 0) && !hasMore ? empty : children}
+        {loadMore && children && (children.length > 0 || children.size > 0) && renderFooter ? renderFooter(hasMore) : null}
       </div>
     );
   }

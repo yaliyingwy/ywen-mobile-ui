@@ -1,0 +1,58 @@
+@import "./variables.less";
+
+.@{lib-prefix}-carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  .ywen-scroller {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .scroller-content {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+  .carousel-cell {
+    display: flex;
+    position: relative;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    .ywen-image-spinner {
+      width: 100/@ywen-ppr;
+      height: 100/@ywen-ppr;
+    }
+    .carousel-image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .carousel-pager {
+    z-index: 2;
+    margin-bottom: 16/@ywen-ppr;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    .pager-dot {
+      width: 12/@ywen-ppr;
+      height: 12/@ywen-ppr;
+      border-radius: 6/@ywen-ppr;
+      background: white;
+      margin-right: 10/@ywen-ppr;
+      &.active {
+        background: red;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 // polyfill
-if (!HTMLCanvasElement.prototype.toBlob) {
+if (HTMLCanvasElement && !HTMLCanvasElement.prototype.toBlob) {
   Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
     value: function value(callback, type, quality) {
       const binStr = atob(this.toDataURL(type, quality).split(',')[1]);

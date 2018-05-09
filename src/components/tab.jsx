@@ -54,7 +54,7 @@ class Tab extends PureComponent {
     return (
       <div className={`ywen-tab-container ${className}`} {...rest}>
         <div 
-          className="tab-content needsclick" 
+          className="tab-content" 
           style={{ width: cssMultiple(width, tabs.length) }}
           ref={(content) => { this.content = content; }}
         >

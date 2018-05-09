@@ -22,8 +22,6 @@ class SwitchableContent extends PureComponent {
       transform: `translate3D(-${width * activeIndex}px, 0px, 0px)`,
     };
 
-    console.log(style);
-
     const cells = React.Children.map(children, Child => React.cloneElement(Child, { style: { width, height: '100%' } }));
 
     return (
