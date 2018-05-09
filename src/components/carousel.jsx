@@ -9,6 +9,33 @@ class Carousel extends PureComponent {
   }
 
   componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.timer && nextProps.autoPlayInterval <= 0) {
+      this.clearTimer();
+    }
+
+    if (!this.timer && nextProps.autoPlayInterval > 0) {
+      this.startTimer();
+    }
+  }
+
+  componentWillUnmount() {
+    this.clearTimer();
+  }
+
+
+  setPage = () => {
+    const scroller = this.scroller.getScroller();
+    const { left } = scroller.getValues();
+    const width = this.scroller.container.clientWidth;
+    const page = Math.round(left / width);
+    this.setState({ page });
+  }
+
+  startTimer = () => {
     const { autoPlayInterval, imageList } = this.props;
     if (autoPlayInterval > 0 && imageList.length > 0) {
       this.timer = setInterval(() => {
@@ -31,13 +58,11 @@ class Carousel extends PureComponent {
     }
   }
 
-
-  setPage = () => {
-    const scroller = this.scroller.getScroller();
-    const { left } = scroller.getValues();
-    const width = this.scroller.container.clientWidth;
-    const page = Math.round(left / width);
-    this.setState({ page });
+  clearTimer = () => {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
   }
 
   options = {
