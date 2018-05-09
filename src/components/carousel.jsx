@@ -37,6 +37,7 @@ class Carousel extends PureComponent {
 
   startTimer = () => {
     const { autoPlayInterval, imageList } = this.props;
+    console.log('startTimer', autoPlayInterval, imageList);
     if (autoPlayInterval > 0 && imageList.length > 0) {
       this.timer = setInterval(() => {
         if (!this.scroller.isTouching()) {
@@ -87,7 +88,8 @@ class Carousel extends PureComponent {
     const { 
       imageList, 
       className, 
-      empty, 
+      empty,
+      clickFunc,
     } = this.props;
     let cells;
     if (imageList.length === 0) {
@@ -95,7 +97,7 @@ class Carousel extends PureComponent {
     } else {
       cells = imageList.map((image, index) => {
         return (
-          <div className="carousel-cell" key={index}>
+          <div className="carousel-cell" key={index} onClick={() => clickFunc(index)}>
             <img src={image} alt="" className="carousel-image" />
           </div>
         );
@@ -123,6 +125,7 @@ Carousel.propTypes = {
   empty: PropTypes.element,
   autoPlayInterval: PropTypes.number,
   renderPager: PropTypes.func,
+  clickFunc: PropTypes.func.isRequired,
 };
 
 Carousel.defaultProps = {

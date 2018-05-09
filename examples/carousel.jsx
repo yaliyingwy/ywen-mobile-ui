@@ -35,7 +35,7 @@ class App extends PureComponent {
   render() {
     return (
       <div className="page">
-        <Carousel imageList={this.imageList} className="carousel" autoPlayInterval={3000} />
+        <Carousel imageList={this.imageList} className="carousel" autoPlayInterval={3000} clickFunc={index => console.log('click index', index)} />
       </div>
     );
   }
