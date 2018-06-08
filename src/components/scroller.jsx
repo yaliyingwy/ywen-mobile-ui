@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import PureScroller from 'scroller';
 
 class Scroller extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.scroller = new PureScroller(this.handleScroll, props.options);
+  }
+
   state = {
     scrollLeft: 0,
     scrollTop: 0,
@@ -10,7 +15,6 @@ class Scroller extends PureComponent {
   
 
   componentDidMount() {
-    this.scroller = new PureScroller(this.handleScroll, this.props.options);
     this.updateScrollingDimensions();
   }
 
