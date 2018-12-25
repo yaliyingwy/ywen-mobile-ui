@@ -3,6 +3,7 @@ export const TOAST_MODAL = 'TOAST_MODAL';
 export const ALERT_MODAL = 'ALERT_MODAL';
 export const LOADING_MODAL = 'LOADING_MODAL';
 export const COMMON_MODAL = 'COMMON_MODAL';
+export const CARNO_MODAL = 'CARNO_MODAL';
 
 
 export function getModalNode(type = COMMON_MODAL) {

@@ -28,6 +28,9 @@ class Carousel extends PureComponent {
 
 
   setPage = () => {
+    if (!this.scroller) {
+      return;
+    }
     const scroller = this.scroller.getScroller();
     const { left } = scroller.getValues();
     const width = this.scroller.container.clientWidth;
@@ -39,7 +42,7 @@ class Carousel extends PureComponent {
     const { autoPlayInterval } = this.props;
     if (autoPlayInterval > 0) {
       this.timer = setInterval(() => {
-        if (!this.scroller.isTouching() && this.props.imageList.length > 0) {
+        if (this.scroller && !this.scroller.isTouching() && this.props.imageList.length > 0) {
           const scroller = this.scroller.getScroller();
           const { left } = scroller.getValues();
           const width = this.scroller.container.clientWidth;

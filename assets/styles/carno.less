@@ -1,0 +1,58 @@
+@import './variables.less';
+@import './mixin.less';
+
+.@{lib-prefix}-carno {
+  z-index: 1003;
+  .header {
+    height: 80/@ywen-ppr;
+    background: #ededed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    .action-btn {
+      color: #4780f7;
+      font-size: 38/@ywen-ppr;
+      font-weight: 700;
+      line-height: 80/@ywen-ppr;
+      padding: 0 32/@ywen-ppr;
+      &.hide {
+        opacity: 0;
+      }
+    }
+  }
+  .keyboard {
+    padding: 10/@ywen-ppr 5/@ywen-ppr;
+    background: #d2d3d9;
+    .keyboard-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10/@ywen-ppr;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &.small {
+        padding: 0 132/@ywen-ppr;
+      }
+    }
+    .cell {
+      background: white;
+      width: (750 - 90) / 10 / @ywen-ppr;
+      height: 80/@ywen-ppr;
+      font-size: 30/@ywen-ppr;
+      color: #333333;
+      text-align: center;
+      line-height: 80/@ywen-ppr;
+    }
+  }
+}
+
+.@{lib-prefix}-carno-modal {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+}
