@@ -18,7 +18,7 @@ const config = {
     ],
     extensions: ['.js', '.jsx', '.less'],
     alias: {
-      'ywen-mobile-ui': path.resolve(__dirname, '..'),
+      'ywen-mobile-ui': path.resolve(__dirname, '../src/index.js'),
     },
   },
   module: {

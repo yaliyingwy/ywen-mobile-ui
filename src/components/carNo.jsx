@@ -4,17 +4,30 @@ import Modal from './modal';
 
 import { CARNO_MODAL } from '../utils/modalUtil';
 
+const HANZI = 'HANZI';
+const SPECIAL = 'SPECIAL';
+const ABC = 'ABC';
+
 class CarNo extends PureComponent {
-  state = {
-    carNo: '',
-    show: false,
+  static propTypes = {
+    carNo: PropTypes.string,
   }
+  static defaultProps ={
+    carNo: '',
+  }
+  state = {
+    carNo: this.props.carNo,
+    show: false,
+    type: this.props.carNo.length > 0 ? ABC : HANZI,
+  }
+
+  specialList = [['使', '领', '警', '学', '挂']]
 
   provinceList = [
     ['京', '沪', '津', '渝', '黑', '吉', '辽', '蒙', '冀', '新'],
     ['甘', '青', '陕', '宁', '豫', '鲁', '晋', '皖', '鄂', '湘'],
     ['苏', '川', '贵', '黔', '滇', '桂', '藏', '浙', '赣', '粤'],
-    ['闽', '台', '琼', '港', '云', '使', '领', '警', '学'],
+    ['闽', '台', '琼', '港', '云'],
   ];
 
   abcList = [
@@ -24,7 +37,8 @@ class CarNo extends PureComponent {
     ['X', 'C', 'V', 'B', 'N', 'M'],
   ];
 
-  add = (value) => {
+  add = (value, e) => {
+    e.stopPropagation();
     const { carNo, maxLength } = this.state;
     if (carNo.length === maxLength) {
       return;
@@ -33,11 +47,13 @@ class CarNo extends PureComponent {
     const newNo = `${carNo}${value}`;
     this.setState({
       carNo: newNo,
+      type: ABC,
     });
     onChange(newNo);
   }
 
-  del = () => {
+  del = (e) => {
+    e.stopPropagation();
     const { carNo } = this.state;
     const { onChange } = this.props;
     if (carNo.length > 0) {
@@ -45,6 +61,7 @@ class CarNo extends PureComponent {
       onChange(newNo);
       this.setState({
         carNo: newNo,
+        type: newNo.length === 0 ? HANZI : ABC,
       });
     }
   }
@@ -57,26 +74,61 @@ class CarNo extends PureComponent {
     this.setState({ show: false });
   }
 
+  toggleType = (e) => {
+    e.stopPropagation();
+    const { type, preType } = this.state;
+    if (type === SPECIAL) {
+      this.setState({ type: preType });
+    } else {
+      this.setState({ type: SPECIAL, preType: type });
+    }
+  }
+
   render() {
-    const { carNo, show } = this.state;
+    const { carNo, show, type } = this.state;
     if (!show) {
       return null;
     }
-    const rows = (carNo.length > 0 ? this.abcList : this.provinceList).map((arr, index) => {
+    let list;
+    switch (type) {
+      case HANZI:
+        list = this.provinceList;
+        break;
+      case SPECIAL:
+        list = this.specialList;
+        break;
+      case ABC:
+      default:
+        list = this.abcList;
+        break;
+    }
+    const rows = list.map((arr, index) => {
       const cells = arr.map((title, subIndex) => {
         return (
-          <div className="cell" key={subIndex} onClick={() => this.add(title)}>{title}</div>
+          <div className="cell" key={subIndex} onClick={e => this.add(title, e)}>{title}</div>
         );
       });
+
+      let cls;
+      if (type === ABC && index === 3) {
+        cls = 'keyboard-row small';
+      } else if (type === SPECIAL) {
+        cls = 'keyboard-row center';
+      } else if (type === HANZI && index === 3) {
+        cls = 'keyboard-row small5';
+      } else {
+        cls = 'keyboard-row';
+      }
       return (
-        <div className={`keyboard-row ${carNo.length > 0 && index === 3 ? 'small' : ''}`} key={index}>{cells}</div>
+        <div className={cls} key={index}>{cells}</div>
       );
     });
     return (
-      <Modal className="ywen-carno-modal" type={CARNO_MODAL}>
+      <Modal className="ywen-carno-modal" type={CARNO_MODAL} touchFunc={this.close}>
         <div className="ywen-carno">
           <div className="header">
             <div className={`action-btn ${carNo.length > 0 ? '' : 'hide'}`} onClick={this.del}>删除</div>
+            <div className="action-btn" onClick={this.toggleType}>{type === SPECIAL ? '返回' : '特殊'}</div>
             <div className="action-btn" onClick={this.close}>完成</div>
           </div>
           <div className="keyboard">

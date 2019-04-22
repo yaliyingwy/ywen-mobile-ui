@@ -23,6 +23,7 @@
   }
   .keyboard {
     padding: 10/@ywen-ppr 5/@ywen-ppr;
+    min-height: (4 * 80 + 3 * 10)/@ywen-ppr;
     background: #d2d3d9;
     .keyboard-row {
       display: flex;
@@ -34,7 +35,16 @@
         margin-bottom: 0;
       }
       &.small {
-        padding: 0 132/@ywen-ppr;
+        padding: 0 138/@ywen-ppr;
+      }
+      &.small5 {
+        padding: 0 186/@ywen-ppr;
+      }
+      &.center{
+        justify-content: flex-start;
+        .cell {
+          margin-right: 10/@ywen-ppr;
+        }
       }
     }
     .cell {

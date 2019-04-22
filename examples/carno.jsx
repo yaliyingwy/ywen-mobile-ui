@@ -26,7 +26,7 @@ class App extends PureComponent {
     return (
       <div className="page">
         <div onClick={() => this.modal.show()}>车牌号:  {value}</div>
-        <CarNo ref={(modal) => { this.modal = modal; }} onChange={this.valueChange} />
+        <CarNo ref={(modal) => { this.modal = modal; }} onChange={this.valueChange} carNo="渝" />
       </div>
     );
   }

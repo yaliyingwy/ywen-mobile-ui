@@ -1,6 +1,6 @@
 {
   "name": "ywen-mobile-ui",
-  "version": "2.1.2",
+  "version": "2.1.7",
   "description": "some ui components for react on mobile",
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
     "index.js",
     "src",
     "dist",
-    "build",
+    "build", 
     "examples",
     "assets/*"
   ],
