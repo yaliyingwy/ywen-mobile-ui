@@ -11,9 +11,12 @@ const ABC = 'ABC';
 class CarNo extends PureComponent {
   static propTypes = {
     carNo: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
   }
   static defaultProps ={
     carNo: '',
+    onClose: () => {},
   }
   state = {
     carNo: this.props.carNo,
@@ -72,6 +75,10 @@ class CarNo extends PureComponent {
 
   close = () => {
     this.setState({ show: false });
+    const { onClose } = this.props;
+    if (onClose) {
+      onClose();
+    }
   }
 
   toggleType = (e) => {
@@ -139,9 +146,5 @@ class CarNo extends PureComponent {
     );
   }
 }
-
-CarNo.propTypes = {
-  onChange: PropTypes.func.isRequired,
-};
 
 export default CarNo;
